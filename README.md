@@ -1,20 +1,18 @@
-# Base Reply Challenge Template
+# Base Reply Challenge Framework
 
-## Env setting
+## Environment Setup
 
-Create and `.env` file for your local inputs and outputs folders, and ensure to add the two following variables:
+Create a `.env` file for your local input and output folders, and make sure to add the following two variables:
 * `INPUT_FOLDER`
 * `OUTPUT_FOLDER`
 
-You can copy `default.env` for simplicity.
+You can copy `default.env` for convenience.
 
-## Input parsing
+## Input Parsing
 
-Modify the class `ChallengeDataModel.java` to store correctly the parsed input data.
-
+Modify the `ChallengeDataModel.java` class to correctly store the parsed input data.
 
 ## Challenge Solver
 
-Create a class extending the abstract class `ChallengeSolver.java`.
-Ensure to implements both `solve()` and `computeScore(String[][] result)` methods.
-
+Create a class that extends the abstract class `ChallengeSolver.java`.
+Make sure to implement both the `solve()` and `computeScore(String[][] result)` methods.
