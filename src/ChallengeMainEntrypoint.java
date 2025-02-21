@@ -21,7 +21,7 @@ public class ChallengeMainEntrypoint {
 
         ChallengeDataModel challengeDataModel = ChallengeDataModel.fromParser(parser);
 
-        // Change this with current challenge implementation
+        // TODO: Change this with current ChallengeSolver implementation
         ChallengeSolver solver = new Challenge2023Solver(challengeDataModel);
         ChallengeResult challengeResult = solver.run();
 
