@@ -1,7 +1,21 @@
 ### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+out/
+# Gradle files
+.gradle/
+build/
+# Maven files
 target/
-!**/src/main/**/out/
-!**/src/test/**/out/
+# Logs and temp files
+*.log
+hs_err_pid*
+# OS-specific files
+.DS_Store
+Thumbs.db
+# Environment files
+.env
 
 ### Eclipse ###
 .apt_generated
@@ -24,9 +38,3 @@ bin/
 
 ### VS Code ###
 .vscode/
-
-### Mac OS ###
-.DS_Store
-
-#ENV
-.env
