@@ -57,6 +57,24 @@ public class IOReplyParser {
         }
     }
 
+    public void writeOutput(String outputFileName, List<List<String>> data) {
+        String[][] dataMatrix;
+
+        if (data == null || data.isEmpty()) {
+            dataMatrix = new String[0][0];
+        } else {
+            int rows = data.size();
+            int cols = data.get(0).size();
+            String[][] array = new String[rows][cols];
+            for (int i = 0; i < rows; i++) {
+                array[i] = data.get(i).toArray(new String[0]);
+            }
+            dataMatrix = array;
+        }
+
+        writeOutput(outputFileName, dataMatrix);
+    }
+
     private static String[][] readFileToMatrix(Path filePath) throws IOException {
         List<String> lines = Files.readAllLines(filePath);
         List<String[]> matrixList = new ArrayList<>();

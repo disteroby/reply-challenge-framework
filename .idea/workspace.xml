@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="73e41694-11a4-497a-bcfe-a647cb472abd" name="Changes" comment="[init] first commit">
+      <change beforePath="$PROJECT_DIR$/src/Challenge2023Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Challenge2023Solver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChallengeMainEntrypoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChallengeMainEntrypoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChallengeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChallengeResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ChallengeSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChallengeSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/CustomLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/CustomLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/IOReplyParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/IOReplyParser.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;disteroby&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/disteroby/reply-challenge-framework.git&quot;,
+    &quot;accountId&quot;: &quot;887f6add-47b1-457e-b467-fc6d5019194b&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2tLsWFxo9ZiPJe4tyoJOET0atQt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ChallengeMainEntrypoint.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/PROGETTI/reply-challenge-framework",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\PROGETTI\reply-challenge-framework" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ChallengeMainEntrypoint" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ChallengeMainEntrypoint" />
+      <module name="reply-challenge-framework" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ChallengeMainEntrypoint" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="73e41694-11a4-497a-bcfe-a647cb472abd" name="Changes" comment="" />
+      <created>1740142719193</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1740142719193</updated>
+      <workItem from="1740142720294" duration="963000" />
+      <workItem from="1740144402587" duration="1081000" />
+      <workItem from="1740145499788" duration="300000" />
+    </task>
+    <task id="LOCAL-00001" summary="[chore] added .gitignore">
+      <option name="closed" value="true" />
+      <created>1740142964623</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1740142964623</updated>
+    </task>
+    <task id="LOCAL-00002" summary="[init] first commit">
+      <option name="closed" value="true" />
+      <created>1740143027791</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1740143027791</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="[chore] added .gitignore" />
+    <MESSAGE value="[init] first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="[init] first commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/ChallengeMainEntrypoint.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

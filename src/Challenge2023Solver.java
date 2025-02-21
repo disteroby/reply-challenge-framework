@@ -1,3 +1,8 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class Challenge2023Solver extends ChallengeSolver {
 
     public Challenge2023Solver(ChallengeDataModel challengeDataModel) {
@@ -5,36 +10,40 @@ public class Challenge2023Solver extends ChallengeSolver {
     }
 
     @Override
-    protected String[][] solve() {
+    protected List<List<String>> solve() {
         int rows = model.components.length;
         int cols = model.components[0].length;
 
-        String[] row1 = new String[]{
+        List<List<String>> result = new ArrayList<>();
+
+        // First row
+        result.add(Arrays.asList(
                 String.valueOf(model.C),
                 String.valueOf(model.R),
                 String.valueOf(model.S)
-        };
-        String[] row2 = model.snakesLength.stream()
+        ));
+
+        // Second row
+        result.add(model.snakesLength.stream()
                 .map(String::valueOf)
-                .toArray(String[]::new);
+                .collect(Collectors.toList()));
 
-        String[][] strMatrix = new String[rows + 2][cols];
-        strMatrix[0] = row1;
-        strMatrix[1] = row2;
-
+        // Components matrix
         for (int i = 0; i < rows; i++) {
+            List<String> row = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
-                strMatrix[i + 2][j] = (model.components[i][j] != null) ?
+                row.add((model.components[i][j] != null) ?
                         String.valueOf(model.components[i][j]) :
-                        "*";
+                        "*");
             }
+            result.add(row);
         }
 
-        return strMatrix;
+        return result;
     }
 
     @Override
-    public long computeScore(String[][] result) {
+    public long computeScore(List<List<String>> result) {
         return 0;
     }
 
