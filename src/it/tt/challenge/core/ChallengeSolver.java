@@ -1,39 +1,68 @@
 package it.tt.challenge.core;
 
+import it.tt.challenge.core.progression.ChallengeProgression;
+
+import java.util.Date;
 import java.util.List;
 
 public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<DATA_MODEL>> {
 
-    protected final DATA_MODEL model;
-    private final int numberOfTries;
+    protected DATA_MODEL model;
+    protected ChallengeProgression progression;
 
-    protected ChallengeSolver(DATA_MODEL model) {
-        this(model, 1);
+    public ChallengeSolver() {
+        this(null, null);
     }
 
-    protected ChallengeSolver(DATA_MODEL model, int numberOfTries) {
+    public ChallengeSolver(DATA_MODEL model, ChallengeProgression progression) {
         this.model = model;
-        this.numberOfTries = numberOfTries;
+        this.progression = progression;
     }
 
-    public ChallengeResult run() {
+    public final ChallengeResult run() {
         ChallengeResult bestResult = null;
 
-        for (int i = 0; i < numberOfTries; i++) {
+        int trialIdx = 1;
+        while (progression.continuing()) {
+            Date dateStart = new Date();
+            System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
             List<List<String>> result = solve();
             long score = computeScore(result);
 
             if (bestResult == null || score > bestResult.score()) {
                 bestResult = new ChallengeResult(score, result);
             }
+
+            trialIdx++;
+            progression.update();
+
+            Date dateEnd = new Date();
+            System.out.println("Completed Trial #" + trialIdx);
+            System.out.println("\t╠══> Completion Time - " + dateEnd);
+            System.out.println("\t╠══> Trial duration: " + getTimeDifference(dateStart, dateEnd));
+            System.out.println("\t╚══> Score: " + score);
+            System.out.println();
         }
 
         return bestResult;
     }
 
+    private static String getTimeDifference(Date dateStart, Date dateEnd) {
+        // Calculate the difference in milliseconds
+        long diffInMillis = dateEnd.getTime() - dateStart.getTime();
+
+        // Calculate minutes, seconds, and milliseconds
+        long minutes = diffInMillis / 60000;
+        long seconds = (diffInMillis % 60000) / 1000;
+        long milliseconds = diffInMillis % 1000;
+
+        // Return the formatted result as a string
+        return String.format("%02d:%02d.%03d", minutes, seconds, milliseconds);
+    }
+
     protected abstract List<List<String>> solve();
 
-    public abstract long computeScore(List<List<String>> result);
+    protected abstract long computeScore(List<List<String>> result);
 
-    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel);
+    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgression progression);
 }

@@ -4,7 +4,6 @@ import it.tt.challenge.core.BaseChallengeDataModel;
 import it.tt.utils.IOReplyParser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Challenge2023DataModel implements BaseChallengeDataModel<Challenge2023DataModel> {
@@ -13,9 +12,6 @@ public class Challenge2023DataModel implements BaseChallengeDataModel<Challenge2
     public int S; //Snakes number
     public List<Integer> snakesLength;
     public Integer[][] components;
-
-    public Challenge2023DataModel() {
-    }
 
     @Override
     public Challenge2023DataModel fromParser(IOReplyParser parser) {
@@ -37,10 +33,5 @@ public class Challenge2023DataModel implements BaseChallengeDataModel<Challenge2
         }
 
         return challenge2023DataModel;
-    }
-
-    @Override
-    public String toString() {
-        return "ChallengeData{" + "Columns = " + C + ", Rows = " + R + ", Snake numbers =" + S + ", snakesLength=" + Arrays.toString(snakesLength.toArray()) + ", components=" + Arrays.toString(Arrays.stream(components).map(Arrays::toString).toArray()) + '}';
     }
 }
