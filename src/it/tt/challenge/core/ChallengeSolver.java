@@ -8,37 +8,62 @@ import java.util.List;
 
 public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<DATA_MODEL>> {
 
+    /**
+     * The structured data model representing the input for the challenge.
+     * This object holds the data that will be processed and used during the challenge.
+     */
     protected DATA_MODEL model;
-    protected ChallengeProgressionStrategy progression;
+
+    /**
+     * The oracle that allows making random choices during the challenge.
+     * It helps in determining progression and decision-making based on a given strategy.
+     */
+    protected ChallengeOracle oracle;
+
+    /**
+     * The best result achieved during the current execution.
+     * This is updated each time a better solution is found during a trial.
+     */
+    protected ChallengeResult currentBestResult;
+
+    /**
+     * The result of the previous computation or trial.
+     * This result is stored for comparison with the current result.
+     */
+    protected ChallengeResult previousResult;
 
     public ChallengeSolver() {
         this(null, null);
     }
 
-    public ChallengeSolver(DATA_MODEL model, ChallengeProgressionStrategy progression) {
+    public ChallengeSolver(DATA_MODEL model, ChallengeProgressionStrategy progressionStrategy) {
         this.model = model;
-        this.progression = progression;
+        this.oracle = new ChallengeOracle(progressionStrategy);
+        this.currentBestResult = null;
+        this.previousResult = null;
     }
 
-    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgressionStrategy progression);
+    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgressionStrategy progressionStrategy);
 
-    protected abstract List<List<String>> solve(ChallengeResult bestResult, ChallengeOracle oracle);
+    protected abstract List<List<String>> solve();
 
     protected abstract long computeScore(List<List<String>> result);
 
-    public final ChallengeResult run(ChallengeOracle oracle) {
-        ChallengeResult bestResult = null;
-
+    public final ChallengeResult run() {
         int trialIdx = 1;
-        while (progression.continuing()) {
+        while (this.oracle.progressionStrategy().continuing()) {
             Date dateStart = new Date();
             System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
-            List<List<String>> result = solve(bestResult, oracle);
+            List<List<String>> result = solve();
             long score = computeScore(result);
 
-            if (bestResult == null || score > bestResult.score()) {
-                bestResult = new ChallengeResult(score, result);
+            ChallengeResult currentResult = new ChallengeResult(score, result);
+
+            if (this.currentBestResult == null || currentResult.score() >= this.currentBestResult.score()) {
+                this.currentBestResult = new ChallengeResult(score, result);
             }
+
+            this.previousResult = currentResult;
 
             Date dateEnd = new Date();
             System.out.println("Completed Trial #" + trialIdx);
@@ -48,10 +73,10 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
             System.out.println();
 
             trialIdx++;
-            progression.update();
+            this.oracle.progressionStrategy().update();
         }
 
-        return bestResult;
+        return this.currentBestResult;
     }
 
     private static String getTimeDifference(Date dateStart, Date dateEnd) {
@@ -59,9 +84,9 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         long diffInMillis = dateEnd.getTime() - dateStart.getTime();
 
         // Calculate minutes, seconds, and milliseconds
-        long minutes = diffInMillis / 60000;
-        long seconds = (diffInMillis % 60000) / 1000;
-        long milliseconds = diffInMillis % 1000;
+        long minutes = diffInMillis / 60_000;
+        long seconds = (diffInMillis % 60_000) / 1_000;
+        long milliseconds = diffInMillis % 1_000;
 
         // Return the formatted result as a string
         return String.format("%02d:%02d.%03d", minutes, seconds, milliseconds);

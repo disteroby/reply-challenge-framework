@@ -32,7 +32,7 @@ public class ChallengeMainEntrypoint {
                 .setInputFileName(inputFileName)
                 .setInputFolder(EnvUtils.get("INPUT_FOLDER"))
                 .setOutputFolder(EnvUtils.get("OUTPUT_FOLDER"))
-                .setProgression(new OneShotChallengeProgressionStrategy())
+                .setProgression(new FixedChallengeProgressionStrategy(3))
                 .setEnableMatrixLogger(true)
                 .build());
     }

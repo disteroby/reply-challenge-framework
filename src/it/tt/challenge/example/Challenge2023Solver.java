@@ -1,8 +1,6 @@
 package it.tt.challenge.example;
 
-import it.tt.challenge.core.ChallengeResult;
 import it.tt.challenge.core.ChallengeSolver;
-import it.tt.challenge.core.progression.ChallengeOracle;
 import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
 
 import java.util.Arrays;
@@ -12,16 +10,28 @@ import java.util.stream.Collectors;
 
 public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel> {
 
-    @Override
-    public ChallengeSolver<Challenge2023DataModel> fromDataModel(Challenge2023DataModel challengeDataModel, ChallengeProgressionStrategy progression) {
-        Challenge2023Solver challengeSolver = new Challenge2023Solver();
-        challengeSolver.model = challengeDataModel;
-        challengeSolver.progression = progression;
-        return challengeSolver;
+    @SuppressWarnings("unused")
+    public Challenge2023Solver() {
+        this(null, null);
+    }
+
+    private Challenge2023Solver(Challenge2023DataModel challengeDataModel, ChallengeProgressionStrategy progressionStrategy) {
+        super(challengeDataModel, progressionStrategy);
     }
 
     @Override
-    protected List<List<String>> solve(ChallengeResult bestResult, ChallengeOracle oracle) {
+    public Challenge2023Solver fromDataModel(Challenge2023DataModel challengeDataModel, ChallengeProgressionStrategy progressionStrategy) {
+        return new Challenge2023Solver(challengeDataModel, progressionStrategy);
+    }
+
+    @Override
+    protected List<List<String>> solve() {
+
+        // Used cached result for performance improving
+        if(this.previousResult != null) {
+            return this.previousResult.result();
+        }
+
         int rows = model.components.length;
         int cols = model.components[0].length;
 
@@ -48,6 +58,13 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
                         "*");
             }
             result.add(row);
+        }
+
+        // Make the thread sleep for 3 seconds (3000 milliseconds) to simulate a heavy computation
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            System.err.println("Thread was interrupted!");
         }
 
         return result;

@@ -39,7 +39,7 @@ public class ChallengeExecutor {
             ChallengeOracle oracle = new ChallengeOracle(challengeConfig.getProgressionStrategy());
 
             ChallengeSolver<DATA_MODEL> challengeSolver = solverFactoryInstance.fromDataModel(challengeDataModel, oracle.progressionStrategy());
-            ChallengeResult challengeResult = challengeSolver.run(oracle);
+            ChallengeResult challengeResult = challengeSolver.run();
 
             if (challengeConfig.getEnableMatrixLogger()) {
                 System.out.println("\n\n═════╣  GENERATED OUTPUT with score '" + challengeResult.score() + "'  ╠═════\n");

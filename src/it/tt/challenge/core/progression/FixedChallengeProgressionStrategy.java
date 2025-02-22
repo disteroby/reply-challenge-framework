@@ -1,13 +1,17 @@
 package it.tt.challenge.core.progression;
 
+import java.util.Random;
+
 public class FixedChallengeProgressionStrategy implements ChallengeProgressionStrategy {
 
     private final int maxNumberOfTrials;
     private int currentTrial;
+    private final Random rand;
 
     public FixedChallengeProgressionStrategy(int maxNumberOfTrials) {
         this.maxNumberOfTrials = maxNumberOfTrials;
         this.currentTrial = 0;
+        this.rand = new Random();
     }
 
     @Override
@@ -22,6 +26,6 @@ public class FixedChallengeProgressionStrategy implements ChallengeProgressionSt
 
     @Override
     public float randomChoice() {
-        return 0f;
+        return rand.nextFloat() * (this.maxNumberOfTrials - this.currentTrial) / this.maxNumberOfTrials;
     }
 }
