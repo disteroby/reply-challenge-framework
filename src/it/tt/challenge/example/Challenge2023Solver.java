@@ -1,12 +1,25 @@
+package it.tt.challenge.example;
+
+import it.tt.challenge.core.ChallengeSolver;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class Challenge2023Solver extends ChallengeSolver {
+public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel> {
 
-    public Challenge2023Solver(ChallengeDataModel challengeDataModel) {
-        super(challengeDataModel);
+    public Challenge2023Solver() {
+        super(null);
+    }
+
+    public Challenge2023Solver(Challenge2023DataModel challenge2023DataModel) {
+        super(challenge2023DataModel);
+    }
+
+    @Override
+    public ChallengeSolver<Challenge2023DataModel> fromDataModel(Challenge2023DataModel challengeDataModel) {
+        return new Challenge2023Solver(challengeDataModel);
     }
 
     @Override
@@ -45,11 +58,5 @@ public class Challenge2023Solver extends ChallengeSolver {
     @Override
     public long computeScore(List<List<String>> result) {
         return 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Challenge2023Solver[" +
-                "challengeData=" + model + ']';
     }
 }
