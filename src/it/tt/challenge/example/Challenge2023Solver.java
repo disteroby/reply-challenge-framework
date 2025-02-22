@@ -29,6 +29,12 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
 
         // Used cached result for performance improving
         if(this.previousResult != null) {
+            // Make the thread sleep for 0.1 seconds (100 milliseconds) to simulate a normal computation
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                System.err.println("Thread was interrupted!");
+            }
             return this.previousResult.result();
         }
 

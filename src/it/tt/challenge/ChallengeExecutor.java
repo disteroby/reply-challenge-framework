@@ -4,7 +4,7 @@ import it.tt.challenge.core.BaseChallengeDataModel;
 import it.tt.challenge.core.ChallengeConfig;
 import it.tt.challenge.core.ChallengeResult;
 import it.tt.challenge.core.ChallengeSolver;
-import it.tt.challenge.core.progression.ChallengeOracle;
+import it.tt.challenge.core.ChallengeOracle;
 import it.tt.utils.IOReplyLogger;
 
 public class ChallengeExecutor {

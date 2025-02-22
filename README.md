@@ -146,13 +146,15 @@ summarizes them:
 
 #### Handling Challenge Progression Strategy
 
-The `progressionStrategy` parameter allows customizing how many times the challenge runs before generating the final output. It
-accepts the following implementations of `ChallengeProgressionStrategy`:
+The `progressionStrategy` parameter customizes the number of times the challenge runs before producing the final output.
+It accepts implementations of the abstract class `ChallengeProgressionStrategy.java`, with some standard implementations
+described below:
 
-| **Progression**                       | **Description**                             |
-|---------------------------------------|---------------------------------------------|
-| `OneShotChallengeProgressionStrategy` | Runs the challenge only once.               |
-| `FixedChallengeProgressionStrategy`   | Runs the challenge a fixed number of times. |
+| **Progression**                         | **Description**                                                                        |
+|-----------------------------------------|----------------------------------------------------------------------------------------|
+| `OneShotChallengeProgressionStrategy`   | Runs the challenge only once.                                                          |
+| `FixedChallengeProgressionStrategy`     | Runs the challenge a fixed number of times.                                            |
+| `SimulatedAnnealingProgressionStrategy` | Gradually lowers temperature to reduce randomness and converge to an optimal solution. |
 
 ## Summary
 

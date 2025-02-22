@@ -1,7 +1,11 @@
 package it.tt.challenge.core.progression;
 
-public interface ChallengeProgressionStrategy {
-    boolean continuing();
-    void update();
-    float randomChoice();
+public abstract class ChallengeProgressionStrategy {
+    abstract public boolean continuing();
+    abstract public void update();
+    abstract public float randomChoice();
+
+    public String getStrategyStatus() {
+        return null;
+    }
 }

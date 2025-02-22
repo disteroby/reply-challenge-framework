@@ -2,7 +2,7 @@ package it.tt.challenge.core.progression;
 
 import java.util.Random;
 
-public class FixedChallengeProgressionStrategy implements ChallengeProgressionStrategy {
+public class FixedChallengeProgressionStrategy extends ChallengeProgressionStrategy {
 
     private final int maxNumberOfTrials;
     private int currentTrial;

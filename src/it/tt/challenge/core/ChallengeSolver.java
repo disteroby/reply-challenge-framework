@@ -1,6 +1,5 @@
 package it.tt.challenge.core;
 
-import it.tt.challenge.core.progression.ChallengeOracle;
 import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
 
 import java.util.Date;
@@ -54,6 +53,12 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         while (this.oracle.progressionStrategy().continuing()) {
             Date dateStart = new Date();
             System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
+
+            String strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
+            if(strategyStatus != null) {
+                System.out.println("\t[STATUS] " + strategyStatus);
+            }
+
             List<List<String>> result = solve();
             long score = computeScore(result);
 

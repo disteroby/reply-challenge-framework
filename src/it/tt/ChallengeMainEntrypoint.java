@@ -32,7 +32,7 @@ public class ChallengeMainEntrypoint {
                 .setInputFileName(inputFileName)
                 .setInputFolder(EnvUtils.get("INPUT_FOLDER"))
                 .setOutputFolder(EnvUtils.get("OUTPUT_FOLDER"))
-                .setProgression(new FixedChallengeProgressionStrategy(3))
+                .setProgression(new SimulatedAnnealingProgressionStrategy(1000, 10))
                 .setEnableMatrixLogger(true)
                 .build());
     }
