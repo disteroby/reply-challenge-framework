@@ -23,7 +23,8 @@ public class EnvUtils {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load .env file at path: " + path, e);
+            System.err.println("Could not find the .env file at the path: '" + path.toAbsolutePath() + "'.\n" +
+                    "Please create a .env file using the default.env file located in the project root.\n");
         }
     }
 
