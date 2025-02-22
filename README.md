@@ -22,6 +22,7 @@ solver.
 Example:
 
 ```java
+
 public class MyChallengeDataModel implements BaseChallengeDataModel<MyChallengeDataModel> {
     private List<String> data;
 
@@ -30,6 +31,7 @@ public class MyChallengeDataModel implements BaseChallengeDataModel<MyChallengeD
         // Use here the IOReplyParser to parse and store input data
     }
 }
+
 ```
 
 By following this approach, you ensure that input data is consistently structured and easily usable within the challenge
@@ -49,12 +51,11 @@ the solver has access to structured input data, creating a new instance for the 
 ```java
 
 @Override
-public ChallengeSolver<MyChallengeDataModel> fromDataModel(MyChallengeDataModel challengeDataModel, ChallengeProgression progression) {
-    MyChallengeSolver myChallengeSolver = new MyChallengeSolver();
-    myChallengeSolver.model = challengeDataModel;
-    myChallengeSolver.progression = progression;
-    return myChallengeSolver;
+public MyChallengeDataModel fromParser(IOReplyParser parser) {
+    // Implement parsing logic here
+    return myChallengeDataModel;
 }
+
 ```
 
 ### Implementing the `solve` Method
@@ -67,8 +68,9 @@ it to generate the correct output.
 @Override
 public List<List<String>> solve(ChallengeResult bestResult) {
     // Implement solving logic here
-    return List.of();
+    return result;
 }
+
 ```
 
 ### Implementing the `computeScore` Method
@@ -80,8 +82,9 @@ The `computeScore` method calculates the performance score based on the challeng
 @Override
 public int computeScore(OutputData outputData) {
     // Implement scoring logic here
-    return 0;
+    return score;
 }
+
 ```
 
 By implementing these methods, you ensure that the solver correctly processes input data, executes the challenge logic,
@@ -112,6 +115,7 @@ are provided and allows for optional configurations.
 #### Example Setup
 
 ```java
+
 ChallengeConfig<MyDataModel, MySolver> config = new ChallengeConfig
         .Builder<>(MyDataModel.class, MySolver.class)
         .setInputFileName("inputFileName.txt")
@@ -121,47 +125,52 @@ ChallengeConfig<MyDataModel, MySolver> config = new ChallengeConfig
         .setProgression(new OneShotChallengeProgression())
         .setEnableMatrixLogger(true)
         .build();
+
 ```
 
 ### ChallengeConfig Parameters
 
-This class allows customization of the challenge setup, consisting of mandatory and optional parameters.
+This class allows customization of the challenge setup, consisting of mandatory and optional parameters. This table
+summarizes them:
 
-#### Mandatory Parameters
+| **Parameter**        | **Description**                                                      | **Default Value**                   | **Mandatory** |
+|----------------------|----------------------------------------------------------------------|-------------------------------------|---------------|
+| `dataModelClass`     | Defines the type of data model used in the challenge.                | N/A                                 | ✔             |
+| `solverClass`        | Specifies the solver implementation used to process the challenge.   | N/A                                 | ✔             |
+| `inputFileName`      | The name of the file containing input data.                          | N/A                                 | ✔             |
+| `outputFileName`     | The name of the file where the output results will be stored.        | `out-<inputFileName>`               | ✘             |
+| `inputFolder`        | The directory containing input files.                                | `./`                                | ✘             |
+| `outputFolder`       | The directory where output files will be saved.                      | `./`                                | ✘             |
+| `progression`        | Defines how the challenge progresses over multiple executions.       | `new OneShotChallengeProgression()` | ✘             |
+| `enableMatrixLogger` | Enables logging of input and output matrices for debugging purposes. | `true`                              | ✘             |
 
-- **`dataModelClass`** *(Class<DATA_MODEL>)*: Defines the type of data model used in the challenge.
-- **`solverClass`** *(Class<SOLVER>)*: Specifies the solver implementation used to process the challenge.
-- **`inputFileName`** *(String)*: The name of the file containing input data.
-
-If any of these parameters are missing, an `IllegalArgumentException` will be thrown.
-
-#### Optional Parameters
-
-- **`outputFileName`** *(String, default: `out-<inputFileName>`)*: The name of the file where the output results will be
-  stored.
-- **`inputFolder`** *(String, default: `./`)*: The directory containing input files.
-- **`outputFolder`** *(String, default: `./`)*: The directory where output files will be saved.
-- **`progression`** *(ChallengeProgression, default: `OneShotChallengeProgression`)*: Defines how the challenge
-  progresses over multiple executions.
-- **`enableMatrixLogger`** *(boolean, default: `true`)*: Enables logging of input and output matrices for debugging
-  purposes.
-
-### Handling Challenge Progression
+#### Handling Challenge Progression
 
 The `progression` parameter allows customizing how many times the challenge runs before generating the final output. It
-accepts implementations of `ChallengeProgression`, such as:
+accepts the following implementations of `ChallengeProgression`:
 
-- **`OneShotChallengeProgression`**: Runs the challenge only once.
-- **`FixedChallengeProgression`**: Runs the challenge a fixed number of times.
+| **Progression**               | **Description**                             |
+|-------------------------------|---------------------------------------------|
+| `OneShotChallengeProgression` | Runs the challenge only once.               |
+| `FixedChallengeProgression`   | Runs the challenge a fixed number of times. |
 
 ## Summary
 
-- Use `ChallengeConfig.Builder` to construct a configuration.
-- Ensure mandatory parameters (`dataModelClass`, `solverClass`, `inputFileName`) are provided.
-- Customize optional parameters based on challenge requirements.
-- Implement `ChallengeSolver` methods to process input, execute logic, and compute scores.
-- Handle progression strategies using `ChallengeProgression` implementations.
-- Enable logging if matrix output is needed for debugging.
+To solve a challenge using the **Reply Challenge Framework**, follow these steps:
 
-This structured approach ensures a consistent and flexible way to manage challenge configurations efficiently.
+1. **Create a Data Model Class**: Implement the `BaseChallengeDataModel` interface in a new class. This class is
+   responsible for parsing and structuring the input data. Implement the `fromParser` method to define how the raw input
+   is converted into structured data.
 
+2. **Develop a Solver Class**: Create a class that extends the `ChallengeSolver` abstract class. Implement the following
+   methods:
+    - `fromDataModel`: Prepare the parsed data for the solver.
+    - `solve`: Implement the main logic of the challenge to process the input and generate output.
+    - `computeScore`: Calculate the performance score based on the challenge's evaluation criteria.
+
+3. **Configure the Challenge Setup**:
+    - Create a `.env` file with the `INPUT_FOLDER` and `OUTPUT_FOLDER` variables.
+    - Set up the `ChallengeConfig` class using the `ChallengeConfig.Builder`. Use the developed DataModel and Solver
+      classes for this setup.
+
+By following these steps, you can effectively parse input, solve the challenge, and evaluate the result!
