@@ -12,20 +12,21 @@ public class ChallengeMainEntrypoint {
     private static final String inputFileName = "00-example.txt";
 
     /**
-     * The main entry point for the challenge.
+     * The main entry point for executing the challenge solution.
      * <p>
-     * This method serves as the starting point for executing the challenge solution. It instantiates the
-     * necessary data model and solver classes to process the input and generate the output.
-     * The data model class must extend {@link it.tt.challenge.core.BaseChallengeDataModel}, which defines the
-     * input data structure, and the solver class must implement {@link it.tt.challenge.core.ChallengeSolver},
-     * which contains the logic to solve the challenge.
+     * This method initializes and configures the challenge execution environment. It sets up the required
+     * data model and solver classes, retrieves environment-specific paths, and executes the challenge solver.
      * </p>
      *
-     * @param args Command-line arguments (not used in this case)
+     * <p>
+     * The data model class must extend {@link it.tt.challenge.core.BaseChallengeDataModel}, ensuring the
+     * correct input data structure is defined. The solver class must implement {@link it.tt.challenge.core.ChallengeSolver},
+     * containing the logic to process and solve the challenge.
+     * </p>
+     *
+     * @param args Command-line arguments (not used in this execution flow).
      */
     public static void main(String[] args) {
-
-        // Initialize the data model and solver for the challenge and execute the solution.
         ChallengeExecutor.exec(new ChallengeConfig
                 .Builder<>(Challenge2023DataModel.class, Challenge2023Solver.class)
                 .setInputFileName(inputFileName)

@@ -19,6 +19,12 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         this.progression = progression;
     }
 
+    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgression progression);
+
+    protected abstract List<List<String>> solve(ChallengeResult bestResult);
+
+    protected abstract long computeScore(List<List<String>> result);
+
     public final ChallengeResult run() {
         ChallengeResult bestResult = null;
 
@@ -59,10 +65,4 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         // Return the formatted result as a string
         return String.format("%02d:%02d.%03d", minutes, seconds, milliseconds);
     }
-
-    protected abstract List<List<String>> solve(ChallengeResult bestResult);
-
-    protected abstract long computeScore(List<List<String>> result);
-
-    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgression progression);
 }
