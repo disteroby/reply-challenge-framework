@@ -2,7 +2,7 @@ package it.tt.utils;
 
 import java.util.List;
 
-public class CustomLogger {
+public class IOReplyLogger {
     public static <T> void printMatrix(T[][] matrix) {
         for (T[] row : matrix) {
             for (T t : row) {

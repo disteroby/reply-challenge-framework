@@ -1,5 +1,6 @@
 package it.tt.challenge.example;
 
+import it.tt.challenge.core.ChallengeResult;
 import it.tt.challenge.core.ChallengeSolver;
 import it.tt.challenge.core.progression.ChallengeProgression;
 
@@ -19,7 +20,7 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
     }
 
     @Override
-    protected List<List<String>> solve() {
+    protected List<List<String>> solve(ChallengeResult bestResult) {
         int rows = model.components.length;
         int cols = model.components[0].length;
 

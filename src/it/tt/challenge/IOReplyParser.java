@@ -1,4 +1,4 @@
-package it.tt.utils;
+package it.tt.challenge;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

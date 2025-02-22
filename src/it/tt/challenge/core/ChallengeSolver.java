@@ -26,15 +26,12 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         while (progression.continuing()) {
             Date dateStart = new Date();
             System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
-            List<List<String>> result = solve();
+            List<List<String>> result = solve(bestResult);
             long score = computeScore(result);
 
             if (bestResult == null || score > bestResult.score()) {
                 bestResult = new ChallengeResult(score, result);
             }
-
-            trialIdx++;
-            progression.update();
 
             Date dateEnd = new Date();
             System.out.println("Completed Trial #" + trialIdx);
@@ -42,6 +39,9 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
             System.out.println("\t╠══> Trial duration: " + getTimeDifference(dateStart, dateEnd));
             System.out.println("\t╚══> Score: " + score);
             System.out.println();
+
+            trialIdx++;
+            progression.update();
         }
 
         return bestResult;
@@ -60,7 +60,7 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         return String.format("%02d:%02d.%03d", minutes, seconds, milliseconds);
     }
 
-    protected abstract List<List<String>> solve();
+    protected abstract List<List<String>> solve(ChallengeResult bestResult);
 
     protected abstract long computeScore(List<List<String>> result);
 
