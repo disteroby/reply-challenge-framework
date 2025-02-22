@@ -4,6 +4,7 @@ import it.tt.challenge.core.BaseChallengeDataModel;
 import it.tt.challenge.core.ChallengeConfig;
 import it.tt.challenge.core.ChallengeResult;
 import it.tt.challenge.core.ChallengeSolver;
+import it.tt.challenge.core.progression.ChallengeOracle;
 import it.tt.utils.IOReplyLogger;
 
 public class ChallengeExecutor {
@@ -35,8 +36,10 @@ public class ChallengeExecutor {
 
             DATA_MODEL challengeDataModel = dataModelFactoryInstance.fromParser(parser);
 
-            ChallengeSolver<DATA_MODEL> challengeSolver = solverFactoryInstance.fromDataModel(challengeDataModel, challengeConfig.getProgression());
-            ChallengeResult challengeResult = challengeSolver.run();
+            ChallengeOracle oracle = new ChallengeOracle(challengeConfig.getProgressionStrategy());
+
+            ChallengeSolver<DATA_MODEL> challengeSolver = solverFactoryInstance.fromDataModel(challengeDataModel, oracle.progressionStrategy());
+            ChallengeResult challengeResult = challengeSolver.run(oracle);
 
             if (challengeConfig.getEnableMatrixLogger()) {
                 System.out.println("\n\n═════╣  GENERATED OUTPUT with score '" + challengeResult.score() + "'  ╠═════\n");

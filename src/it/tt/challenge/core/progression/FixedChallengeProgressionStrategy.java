@@ -1,11 +1,11 @@
 package it.tt.challenge.core.progression;
 
-public class FixedChallengeProgression implements ChallengeProgression {
+public class FixedChallengeProgressionStrategy implements ChallengeProgressionStrategy {
 
     private final int maxNumberOfTrials;
     private int currentTrial;
 
-    public FixedChallengeProgression(int maxNumberOfTrials) {
+    public FixedChallengeProgressionStrategy(int maxNumberOfTrials) {
         this.maxNumberOfTrials = maxNumberOfTrials;
         this.currentTrial = 0;
     }
@@ -18,5 +18,10 @@ public class FixedChallengeProgression implements ChallengeProgression {
     @Override
     public void update() {
         this.currentTrial++;
+    }
+
+    @Override
+    public float randomChoice() {
+        return 0f;
     }
 }

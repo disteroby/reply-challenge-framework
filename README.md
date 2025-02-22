@@ -133,26 +133,26 @@ ChallengeConfig<MyDataModel, MySolver> config = new ChallengeConfig
 This class allows customization of the challenge setup, consisting of mandatory and optional parameters. This table
 summarizes them:
 
-| **Parameter**        | **Description**                                                      | **Default Value**                   | **Mandatory** |
-|----------------------|----------------------------------------------------------------------|-------------------------------------|---------------|
-| `dataModelClass`     | Defines the type of data model used in the challenge.                | N/A                                 | ✔             |
-| `solverClass`        | Specifies the solver implementation used to process the challenge.   | N/A                                 | ✔             |
-| `inputFileName`      | The name of the file containing input data.                          | N/A                                 | ✔             |
-| `outputFileName`     | The name of the file where the output results will be stored.        | `out-<inputFileName>`               | ✘             |
-| `inputFolder`        | The directory containing input files.                                | `./`                                | ✘             |
-| `outputFolder`       | The directory where output files will be saved.                      | `./`                                | ✘             |
-| `progression`        | Defines how the challenge progresses over multiple executions.       | `new OneShotChallengeProgression()` | ✘             |
-| `enableMatrixLogger` | Enables logging of input and output matrices for debugging purposes. | `true`                              | ✘             |
+| **Parameter**         | **Description**                                                      | **Default Value**                           | **Mandatory** |
+|-----------------------|----------------------------------------------------------------------|---------------------------------------------|---------------|
+| `dataModelClass`      | Defines the type of data model used in the challenge.                | N/A                                         | ✔             |
+| `solverClass`         | Specifies the solver implementation used to process the challenge.   | N/A                                         | ✔             |
+| `inputFileName`       | The name of the file containing input data.                          | N/A                                         | ✔             |
+| `outputFileName`      | The name of the file where the output results will be stored.        | `out-<inputFileName>`                       | ✘             |
+| `inputFolder`         | The directory containing input files.                                | `./`                                        | ✘             |
+| `outputFolder`        | The directory where output files will be saved.                      | `./`                                        | ✘             |
+| `progressionStrategy` | Defines how the challenge progresses over multiple executions.       | `new OneShotChallengeProgressionStrategy()` | ✘             |
+| `enableMatrixLogger`  | Enables logging of input and output matrices for debugging purposes. | `true`                                      | ✘             |
 
-#### Handling Challenge Progression
+#### Handling Challenge Progression Strategy
 
-The `progression` parameter allows customizing how many times the challenge runs before generating the final output. It
-accepts the following implementations of `ChallengeProgression`:
+The `progressionStrategy` parameter allows customizing how many times the challenge runs before generating the final output. It
+accepts the following implementations of `ChallengeProgressionStrategy`:
 
-| **Progression**               | **Description**                             |
-|-------------------------------|---------------------------------------------|
-| `OneShotChallengeProgression` | Runs the challenge only once.               |
-| `FixedChallengeProgression`   | Runs the challenge a fixed number of times. |
+| **Progression**                       | **Description**                             |
+|---------------------------------------|---------------------------------------------|
+| `OneShotChallengeProgressionStrategy` | Runs the challenge only once.               |
+| `FixedChallengeProgressionStrategy`   | Runs the challenge a fixed number of times. |
 
 ## Summary
 

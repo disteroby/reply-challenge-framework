@@ -1,8 +1,8 @@
 package it.tt.challenge.core;
 
-import it.tt.challenge.core.progression.ChallengeProgression;
-import it.tt.challenge.core.progression.FixedChallengeProgression;
-import it.tt.challenge.core.progression.OneShotChallengeProgression;
+import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
+import it.tt.challenge.core.progression.FixedChallengeProgressionStrategy;
+import it.tt.challenge.core.progression.OneShotChallengeProgressionStrategy;
 
 /**
  * Represents the configuration for a challenge, containing all necessary parameters.
@@ -20,7 +20,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
     private static final String DEFAULT_INPUT_FOLDER_PATH = "./";
     private static final String DEFAULT_OUTPUT_FOLDER_PATH = "./";
     private static final String DEFAULT_OUTPUT_FILE_NAME_PREFIX = "out-";
-    private static final ChallengeProgression DEFAULT_PROGRESSION_IMPLEMENTATION = new OneShotChallengeProgression();
+    private static final ChallengeProgressionStrategy DEFAULT_PROGRESSION_IMPLEMENTATION = new OneShotChallengeProgressionStrategy();
     private static final Boolean DEFAULT_ENABLE_MATRIX_LOGGER = true;
 
     private final Class<DATA_MODEL> dataModelClass;
@@ -29,7 +29,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
     private final String outputFileName;
     private final String inputFolder;
     private final String outputFolder;
-    private final ChallengeProgression progression;
+    private final ChallengeProgressionStrategy progressionStrategy;
     private final boolean enableMatrixLogger;
 
     private ChallengeConfig(
@@ -39,7 +39,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
             String outputFileName,
             String inputFolder,
             String outputFolder,
-            ChallengeProgression progression,
+            ChallengeProgressionStrategy progressionStrategy,
             boolean enableMatrixLogger
     ) {
         this.dataModelClass = dataModelClass;
@@ -48,7 +48,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         this.outputFileName = outputFileName;
         this.inputFolder = inputFolder;
         this.outputFolder = outputFolder;
-        this.progression = progression;
+        this.progressionStrategy = progressionStrategy;
         this.enableMatrixLogger = enableMatrixLogger;
     }
 
@@ -76,8 +76,8 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         return outputFolder;
     }
 
-    public ChallengeProgression getProgression() {
-        return progression;
+    public ChallengeProgressionStrategy getProgressionStrategy() {
+        return progressionStrategy;
     }
 
     public boolean getEnableMatrixLogger() {
@@ -104,7 +104,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         private String outputFileName;
         private String inputFolder;
         private String outputFolder;
-        private ChallengeProgression progression;
+        private ChallengeProgressionStrategy progression;
         private Boolean enableMatrixLogger;
 
         /**
@@ -180,22 +180,22 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
          * is found within the defined constraints.
          * </p>
          * <p>
-         * The interface {@link ChallengeProgression} is responsible for managing the logic
+         * The interface {@link ChallengeProgressionStrategy} is responsible for managing the logic
          * behind the number of trials required to complete the challenge. Implementations of this interface define the
          * strategy for selecting how many runs (or "trials") should be allowed before the final result is considered.
          * </p>
          * <p>
-         * Several standard implementations of the {@link ChallengeProgression} interface
+         * Several standard implementations of the {@link ChallengeProgressionStrategy} interface
          * are available in the package {@link it.tt.challenge.core.progression}. For example:
          * </p>
          * <ul>
-         *     <li>{@link OneShotChallengeProgression}: Defines a strategy where only a single execution (or "trial") is performed. This is the default base strategy for the solver.</li>
-         *     <li>{@link FixedChallengeProgression}: Defines a fixed number of trials to be used in the challenge</li>
+         *     <li>{@link OneShotChallengeProgressionStrategy}: Defines a strategy where only a single execution (or "trial") is performed. This is the default base strategy for the solver.</li>
+         *     <li>{@link FixedChallengeProgressionStrategy}: Defines a fixed number of trials to be used in the challenge</li>
          * </ul>
-         * The default implementation is {@link OneShotChallengeProgression}
+         * The default implementation is {@link OneShotChallengeProgressionStrategy}
          */
         @SuppressWarnings("unused")
-        public Builder<DATA_MODEL, SOLVER> setProgression(ChallengeProgression progression) {
+        public Builder<DATA_MODEL, SOLVER> setProgression(ChallengeProgressionStrategy progression) {
             this.progression = progression;
             return this;
         }

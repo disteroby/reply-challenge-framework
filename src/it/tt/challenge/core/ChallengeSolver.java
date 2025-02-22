@@ -1,6 +1,7 @@
 package it.tt.challenge.core;
 
-import it.tt.challenge.core.progression.ChallengeProgression;
+import it.tt.challenge.core.progression.ChallengeOracle;
+import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
 
 import java.util.Date;
 import java.util.List;
@@ -8,31 +9,31 @@ import java.util.List;
 public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<DATA_MODEL>> {
 
     protected DATA_MODEL model;
-    protected ChallengeProgression progression;
+    protected ChallengeProgressionStrategy progression;
 
     public ChallengeSolver() {
         this(null, null);
     }
 
-    public ChallengeSolver(DATA_MODEL model, ChallengeProgression progression) {
+    public ChallengeSolver(DATA_MODEL model, ChallengeProgressionStrategy progression) {
         this.model = model;
         this.progression = progression;
     }
 
-    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgression progression);
+    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgressionStrategy progression);
 
-    protected abstract List<List<String>> solve(ChallengeResult bestResult);
+    protected abstract List<List<String>> solve(ChallengeResult bestResult, ChallengeOracle oracle);
 
     protected abstract long computeScore(List<List<String>> result);
 
-    public final ChallengeResult run() {
+    public final ChallengeResult run(ChallengeOracle oracle) {
         ChallengeResult bestResult = null;
 
         int trialIdx = 1;
         while (progression.continuing()) {
             Date dateStart = new Date();
             System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
-            List<List<String>> result = solve(bestResult);
+            List<List<String>> result = solve(bestResult, oracle);
             long score = computeScore(result);
 
             if (bestResult == null || score > bestResult.score()) {

@@ -2,7 +2,8 @@ package it.tt.challenge.example;
 
 import it.tt.challenge.core.ChallengeResult;
 import it.tt.challenge.core.ChallengeSolver;
-import it.tt.challenge.core.progression.ChallengeProgression;
+import it.tt.challenge.core.progression.ChallengeOracle;
+import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel> {
 
     @Override
-    public ChallengeSolver<Challenge2023DataModel> fromDataModel(Challenge2023DataModel challengeDataModel, ChallengeProgression progression) {
+    public ChallengeSolver<Challenge2023DataModel> fromDataModel(Challenge2023DataModel challengeDataModel, ChallengeProgressionStrategy progression) {
         Challenge2023Solver challengeSolver = new Challenge2023Solver();
         challengeSolver.model = challengeDataModel;
         challengeSolver.progression = progression;
@@ -20,7 +21,7 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
     }
 
     @Override
-    protected List<List<String>> solve(ChallengeResult bestResult) {
+    protected List<List<String>> solve(ChallengeResult bestResult, ChallengeOracle oracle) {
         int rows = model.components.length;
         int cols = model.components[0].length;
 

@@ -1,6 +1,7 @@
 package it.tt.challenge.core.progression;
 
-public interface ChallengeProgression {
+public interface ChallengeProgressionStrategy {
     boolean continuing();
     void update();
+    float randomChoice();
 }
