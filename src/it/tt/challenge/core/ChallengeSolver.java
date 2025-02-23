@@ -52,13 +52,23 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
 
     protected abstract long computeScore(List<List<String>> result);
 
-    public final ChallengeResult run() {
-        int trialIdx = 1;
-
+    private Map<String, String> getStrategyStatus() {
         Map<String, String> strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
         if (strategyStatus == null) {
             strategyStatus = new HashMap<>();
         }
+        return strategyStatus;
+    }
+
+    public final ChallengeResult run() {
+        int trialIdx = 1;
+
+        int bestTrialIdx = -1;
+        Date bestTrialDateStart = null;
+        Date bestTrialDateEnd = null;
+        Map<String, String> bestTrialStrategyStatus = null;
+
+        Map<String, String> strategyStatus = getStrategyStatus();
 
         ArrayList<IOReplyLogger.DataPrintableValue> headers = composeHeaders(strategyStatus);
 
@@ -70,11 +80,6 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         while (this.oracle.progressionStrategy().continuing()) {
             Date dateStart = new Date();
 
-            strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
-            if (strategyStatus == null) {
-                strategyStatus = new HashMap<>();
-            }
-
             boolean showLogForThisIteration = (trialIdx - 1) % configs.getLogEveryNIterations() == 0;
 
             if (showLogForThisIteration && !configs.getLogsPartialResultAsTable()) {
@@ -84,26 +89,25 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
             List<List<String>> result = solve();
             long score = computeScore(result);
 
+            Date dateEnd = new Date();
+
             ChallengeResult currentResult = new ChallengeResult(score, result);
             boolean acceptSolution = this.oracle.progressionStrategy().acceptSolution(currentResult, this.previousResult, this.currentBestResult);
 
+            strategyStatus = getStrategyStatus();
+
             if (this.currentBestResult == null || acceptSolution) {
                 this.currentBestResult = new ChallengeResult(score, result);
+                bestTrialIdx = trialIdx;
+                bestTrialDateStart = dateStart;
+                bestTrialDateEnd = dateEnd;
+                bestTrialStrategyStatus = strategyStatus;
             }
 
             this.previousResult = currentResult;
 
-            Date dateEnd = new Date();
-
-            if (showLogForThisIteration) {
-                List<IOReplyLogger.DataPrintableValue> values = new ArrayList<>();
-                values.add(new IOReplyLogger.DataPrintableValue("#" + trialIdx));
-                values.add(new IOReplyLogger.DataPrintableValue(DateTimeUtils.getTimeDifference(dateStart, dateEnd), 11));
-                values.add(new IOReplyLogger.DataPrintableValue(String.valueOf(score), 10));
-                values.add(new IOReplyLogger.DataPrintableValue(acceptSolution ? "Yes" : "No"));
-                for (Map.Entry<String, String> param : strategyStatus.entrySet()) {
-                    values.add(new IOReplyLogger.DataPrintableValue(param.getValue(), param.getKey().length()));
-                }
+            if (showLogForThisIteration || acceptSolution) {
+                List<IOReplyLogger.DataPrintableValue> values = computeDataPrintableValues(trialIdx, dateStart, dateEnd, score, acceptSolution, strategyStatus);
 
                 if (configs.getLogsPartialResultAsTable()) {
                     IOReplyLogger.printPartialResultAsTable(values, lengths);
@@ -116,7 +120,31 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
             this.oracle.progressionStrategy().update();
         }
 
+        if (configs.getLogsPartialResultAsTable()) {
+            assert bestTrialStrategyStatus != null;
+            List<IOReplyLogger.DataPrintableValue> values = computeDataPrintableValues(bestTrialIdx, bestTrialDateStart, bestTrialDateEnd, this.currentBestResult.score(), true, bestTrialStrategyStatus);
+            IOReplyLogger.printTableFooter(values, lengths);
+        }
+
         return this.currentBestResult;
+    }
+
+    private static List<IOReplyLogger.DataPrintableValue> computeDataPrintableValues(int trialIdx, Date dateStart, Date dateEnd, long score, boolean acceptSolution, Map<String, String> strategyStatus) {
+        List<IOReplyLogger.DataPrintableValue> values = new ArrayList<>();
+        values.add(new IOReplyLogger.DataPrintableValue("#" + trialIdx));
+        values.add(new IOReplyLogger.DataPrintableValue(DateTimeUtils.getTimeDifference(dateStart, dateEnd), 11));
+        values.add(new IOReplyLogger.DataPrintableValue(String.valueOf(score), 10));
+        values.add(new IOReplyLogger.DataPrintableValue(acceptSolution ? "Yes" : "No"));
+
+        Map<String, String> strategyStatusNotNullable = strategyStatus;
+        if(strategyStatusNotNullable == null) {
+            strategyStatusNotNullable = new HashMap<>();
+        }
+
+        for (Map.Entry<String, String> param : strategyStatusNotNullable.entrySet()) {
+            values.add(new IOReplyLogger.DataPrintableValue(param.getValue(), param.getKey().length()));
+        }
+        return values;
     }
 
     private static ArrayList<IOReplyLogger.DataPrintableValue> composeHeaders(Map<String, String> strategyStatus) {

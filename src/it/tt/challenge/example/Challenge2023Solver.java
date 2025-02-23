@@ -6,6 +6,7 @@ import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel> {
@@ -78,6 +79,6 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
 
     @Override
     protected long computeScore(List<List<String>> result) {
-        return 0;
+        return new Random().nextInt(1_000_000); //Mock Computation
     }
 }

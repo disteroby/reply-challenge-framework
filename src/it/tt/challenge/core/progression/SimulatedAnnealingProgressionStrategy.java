@@ -12,7 +12,10 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
     private final float initialTemperature;
     private final float alpha;
     private final float minTemperature;
+
     private float currentTemperature;
+    private double currentAcceptanceProbability;
+
     private final Random rand;
 
     public SimulatedAnnealingProgressionStrategy(ChallengeType challengeType, float initialTemperature, float alpha) {
@@ -25,6 +28,7 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
         this.currentTemperature = initialTemperature;
         this.alpha = alpha;
         this.minTemperature = minTemperature;
+        this.currentAcceptanceProbability = 1.0f;
         this.rand = new Random();
     }
 
@@ -55,9 +59,8 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
             delta *= -1f;
         }
 
-        if(delta > 0) return true;
-
-        return rand.nextFloat() < acceptanceProbability(delta, this.currentTemperature);
+        this.currentAcceptanceProbability = delta < 0 ? acceptanceProbability(delta, this.currentTemperature) : 1f;
+        return rand.nextFloat() <= this.currentAcceptanceProbability;
     }
 
     private static double acceptanceProbability(float delta, float temperature) {
@@ -68,6 +71,7 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
     public Map<String, String> getStrategyStatus() {
         Map<String, String> statusMap = new HashMap<>();
         statusMap.put("Current Temperature", String.format("%.03f", this.currentTemperature).replace(',', '.'));
+        statusMap.put("Acceptance Prob", String.format("%.02f", this.currentAcceptanceProbability * 100).replace(',', '.') + "%");
         return statusMap;
     }
 }

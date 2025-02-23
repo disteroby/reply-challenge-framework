@@ -109,6 +109,73 @@ public class IOReplyLogger {
         return finalLengths;
     }
 
+    public static void printTableFooter(List<DataPrintableValue> fields, List<Integer> headerLengths) {
+        List<Integer> finalLengths = new ArrayList<>();
+        for (int i = 0; i < fields.size(); i++) {
+            DataPrintableValue field = fields.get(i);
+            int headerLength = headerLengths != null ? headerLengths.get(i) - 2 : 0;
+            finalLengths.add(Math.max(Math.max(field.minLength, headerLength), field.value.length()) + 2); // +2 is for 'vertical bars'
+        }
+
+        // Upper row
+        for (int i = 0; i < finalLengths.size(); i++) {
+            int length = finalLengths.get(i) + 2; // +2 is for 'spaces'
+
+            if (i == 0) {
+                System.out.print("╠");
+            } else {
+                System.out.print("╬");
+            }
+
+            for (int j = 1; j < length - 1; j++) {
+                System.out.print("═");
+            }
+
+            if (i == finalLengths.size() - 1) {
+                System.out.print("╣");
+            }
+        }
+        System.out.println();
+
+        // Inner row
+        for (int i = 0; i < finalLengths.size(); i++) {
+            int length = finalLengths.get(i);
+
+            System.out.print("║");
+
+            for (int j = 0; j < length - fields.get(i).value.length() - 1; j++) {
+                System.out.print(" ");
+            }
+
+            System.out.print(fields.get(i).value + " ");
+
+            if (i == finalLengths.size() - 1) {
+                System.out.print("║");
+            }
+        }
+        System.out.println();
+
+        // Lower row
+        for (int i = 0; i < finalLengths.size(); i++) {
+            int length = finalLengths.get(i) + 2;
+
+            if (i == 0) {
+                System.out.print("╚");
+            } else {
+                System.out.print("╩");
+            }
+
+            for (int j = 1; j < length - 1; j++) {
+                System.out.print("═");
+            }
+
+            if (i == finalLengths.size() - 1) {
+                System.out.print("╝");
+            }
+        }
+        System.out.println();
+    }
+
     public static void printPartialResultAsTable(List<DataPrintableValue> values, List<Integer> headerLengths) {
 
         for (int i = 0; i < values.size(); i++) {

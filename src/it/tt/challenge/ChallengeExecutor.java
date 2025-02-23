@@ -5,6 +5,9 @@ import it.tt.challenge.core.ChallengeConfig;
 import it.tt.challenge.core.ChallengeResult;
 import it.tt.challenge.core.ChallengeSolver;
 import it.tt.challenge.core.ChallengeOracle;
+import it.tt.utils.DateTimeUtils;
+
+import java.util.Date;
 
 public class ChallengeExecutor {
 
@@ -39,7 +42,15 @@ public class ChallengeExecutor {
 
             ChallengeSolver<DATA_MODEL> challengeSolver = solverFactoryInstance.fromDataModel(challengeDataModel, oracle.progressionStrategy());
             challengeSolver.setConfigs(challengeConfig);
+
+            Date startRunDate = new Date();
+            System.out.println("Started computation time: " + startRunDate);
+
             ChallengeResult challengeResult = challengeSolver.run();
+
+            Date endRunDate = new Date();
+            System.out.println("Ended computation time: " + endRunDate);
+            System.out.println("Duration: " + DateTimeUtils.getTimeDifference(startRunDate, endRunDate));
 
             if (challengeConfig.getIOLogs()) {
                 System.out.println("\n\n═════╣  GENERATED OUTPUT with score '" + challengeResult.score() + "'  ╠═════\n");
