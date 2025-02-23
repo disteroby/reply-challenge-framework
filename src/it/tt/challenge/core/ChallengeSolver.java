@@ -1,7 +1,8 @@
 package it.tt.challenge.core;
 
 import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
-import it.tt.utils.IOReplyLogger;
+import it.tt.challenge.IOReplyLogger;
+import it.tt.utils.DateTimeUtils;
 
 import java.util.*;
 
@@ -53,27 +54,31 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
 
     public final ChallengeResult run() {
         int trialIdx = 1;
+
+        Map<String, String> strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
+        if (strategyStatus == null) {
+            strategyStatus = new HashMap<>();
+        }
+
+        ArrayList<IOReplyLogger.DataPrintableValue> headers = composeHeaders(strategyStatus);
+
+        List<Integer> lengths = null;
+        if (configs.getLogsPartialResultAsTable()) {
+            lengths = IOReplyLogger.printTableHeader(headers);
+        }
+
         while (this.oracle.progressionStrategy().continuing()) {
             Date dateStart = new Date();
-            Map<String, String> strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
+
+            strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
             if (strategyStatus == null) {
                 strategyStatus = new HashMap<>();
             }
 
-            boolean showLogForThisIteration = (trialIdx-1) % configs.getLogEveryNIterations() == 0;
+            boolean showLogForThisIteration = (trialIdx - 1) % configs.getLogEveryNIterations() == 0;
 
             if (showLogForThisIteration && !configs.getLogsPartialResultAsTable()) {
-                System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
-                List<Map.Entry<String, String>> statusVariables = new ArrayList<>(strategyStatus.entrySet());
-                for (int i = 0; i < statusVariables.size(); i++) {
-                    Map.Entry<String, String> status = statusVariables.get(i);
-
-                    if (i < statusVariables.size() - 1) {
-                        System.out.println("\t╠══> " + status.getKey() + ": " + status.getValue());
-                    } else {
-                        System.out.println("\t╚══> " + status.getKey() + ": " + status.getValue());
-                    }
-                }
+                IOReplyLogger.printListIterationHeader(trialIdx, dateStart);
             }
 
             List<List<String>> result = solve();
@@ -91,7 +96,20 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
             Date dateEnd = new Date();
 
             if (showLogForThisIteration) {
-                IOReplyLogger.printPartialResult(configs.getLogsPartialResultAsTable(), trialIdx, dateStart, dateEnd, score, acceptSolution, strategyStatus);
+                List<IOReplyLogger.DataPrintableValue> values = new ArrayList<>();
+                values.add(new IOReplyLogger.DataPrintableValue("#" + trialIdx));
+                values.add(new IOReplyLogger.DataPrintableValue(DateTimeUtils.getTimeDifference(dateStart, dateEnd), 11));
+                values.add(new IOReplyLogger.DataPrintableValue(String.valueOf(score), 10));
+                values.add(new IOReplyLogger.DataPrintableValue(acceptSolution ? "Yes" : "No"));
+                for (Map.Entry<String, String> param : strategyStatus.entrySet()) {
+                    values.add(new IOReplyLogger.DataPrintableValue(param.getValue(), param.getKey().length()));
+                }
+
+                if (configs.getLogsPartialResultAsTable()) {
+                    IOReplyLogger.printPartialResultAsTable(values, lengths);
+                } else {
+                    IOReplyLogger.printPartialResultAsList(values, headers);
+                }
             }
 
             trialIdx++;
@@ -99,6 +117,18 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         }
 
         return this.currentBestResult;
+    }
+
+    private static ArrayList<IOReplyLogger.DataPrintableValue> composeHeaders(Map<String, String> strategyStatus) {
+        ArrayList<IOReplyLogger.DataPrintableValue> tableHeaders = new ArrayList<>();
+        tableHeaders.add(new IOReplyLogger.DataPrintableValue("Iteration"));
+        tableHeaders.add(new IOReplyLogger.DataPrintableValue("Duration", 12));
+        tableHeaders.add(new IOReplyLogger.DataPrintableValue("Score", 10));
+        tableHeaders.add(new IOReplyLogger.DataPrintableValue("Accepted?"));
+        for (Map.Entry<String, String> param : strategyStatus.entrySet()) {
+            tableHeaders.add(new IOReplyLogger.DataPrintableValue(param.getKey()));
+        }
+        return tableHeaders;
     }
 
     public void setConfigs(ChallengeConfig<DATA_MODEL, ? extends ChallengeSolver<DATA_MODEL>> configs) {

@@ -227,7 +227,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
          * </p>
          */
         @SuppressWarnings("unused")
-        public Builder<DATA_MODEL, SOLVER> setIOLogs(boolean ioLogs) {
+        public Builder<DATA_MODEL, SOLVER> setIOFileLogs(boolean ioLogs) {
             this.ioLogs = ioLogs;
             return this;
         }

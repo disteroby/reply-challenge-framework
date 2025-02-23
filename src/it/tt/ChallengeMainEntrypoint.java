@@ -34,7 +34,7 @@ public class ChallengeMainEntrypoint {
                 .setInputFolder(EnvUtils.get("INPUT_FOLDER"))
                 .setOutputFolder(EnvUtils.get("OUTPUT_FOLDER"))
                 .setProgression(new SimulatedAnnealingProgressionStrategy(ChallengeType.MAXIMUM, 1000, 0.99f, 10))
-                .setIOLogs(true)
+                .setIOFileLogs(false)
                 .setLogsPartialResultAsTable(true)
                 .setLogEveryNIterations(10)
                 .build());
