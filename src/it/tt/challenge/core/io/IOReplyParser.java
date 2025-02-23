@@ -137,7 +137,44 @@ public class IOReplyParser {
     }
 
     @SuppressWarnings("unused")
+    public float parseFloat() {
+        return Float.parseFloat(parseString());
+    }
+
+    @SuppressWarnings("unused")
+    public Float parseFloatOrNull() {
+        try {
+            return parseFloat();
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public double parseDouble() {
+        return Double.parseDouble(parseString());
+    }
+
+    @SuppressWarnings("unused")
+    public Double parseDoubleOrNull() {
+        try {
+            return parseDouble();
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unused")
     public char parseChar() {
         return parseString().charAt(0);
+    }
+
+    @SuppressWarnings("unused")
+    public Character parseCharOrNull() {
+        String parsedString = parseString();
+        if(parsedString.isEmpty()) {
+            return null;
+        }
+        return parsedString.charAt(0);
     }
 }

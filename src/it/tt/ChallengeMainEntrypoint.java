@@ -31,13 +31,11 @@ public class ChallengeMainEntrypoint {
      */
     public static void main(String[] args) {
         ChallengeExecutor.exec(new ChallengeConfig
-                .Builder<>(Challenge2023DataModel.class, Challenge2023Solver.class)
-                .setInputFileName(inputFileName)
+                .Builder<>(Challenge2023DataModel.class, Challenge2023Solver.class) //Mandatory
+                .setInputFileName(inputFileName) //Mandatory
                 .setInputFolder(EnvUtils.get("INPUT_FOLDER"))
                 .setOutputFolder(EnvUtils.get("OUTPUT_FOLDER"))
                 .setProgression(new SimulatedAnnealingProgressionStrategy(ChallengeType.MAXIMUM, 1_200_000, 0.99f, 10))
-//                .setProgression(new OneShotChallengeProgressionStrategy(ChallengeType.MAXIMUM))
-//                .setProgression(new FixedChallengeProgressionStrategy(ChallengeType.MAXIMUM, 100))
                 .setIOFileLogs(false)
                 .setLogsPartialResultAsTable(true)
                 .setLogEveryNIterations(10)

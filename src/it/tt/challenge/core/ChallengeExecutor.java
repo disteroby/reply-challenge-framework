@@ -31,7 +31,7 @@ public class ChallengeExecutor {
             IOReplyParser parser = new IOReplyParser(challengeConfig.getInputFolder(), challengeConfig.getOutputFolder());
             String[][] contents = parser.readInput(challengeConfig.getInputFileName());
 
-            if (challengeConfig.getIOLogs()) {
+            if (challengeConfig.getIOFileLogs()) {
                 System.out.println("\n\n═════╣  PARSED INPUT  ╠═════\n");
                 IOReplyLogger.printMatrix(contents);
                 System.out.println("\n\n");
@@ -54,7 +54,7 @@ public class ChallengeExecutor {
             System.out.println("Ended computation time: " + endRunDate);
             System.out.println("Duration: " + DateTimeUtils.getTimeDifference(startRunDate, endRunDate));
 
-            if (challengeConfig.getIOLogs()) {
+            if (challengeConfig.getIOFileLogs()) {
                 System.out.println("\n\n═════╣  GENERATED OUTPUT with score '" + challengeResult.score() + "'  ╠═════\n");
                 IOReplyLogger.printMatrix(challengeResult.result());
                 System.out.println("\n\n");

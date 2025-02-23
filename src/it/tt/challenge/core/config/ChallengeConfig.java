@@ -2,9 +2,7 @@ package it.tt.challenge.core.config;
 
 import it.tt.challenge.BaseChallengeDataModel;
 import it.tt.challenge.ChallengeSolver;
-import it.tt.challenge.core.strategy.ChallengeProgressionStrategy;
-import it.tt.challenge.core.strategy.FixedChallengeProgressionStrategy;
-import it.tt.challenge.core.strategy.OneShotChallengeProgressionStrategy;
+import it.tt.challenge.core.strategy.*;
 
 /**
  * Represents the configuration for a challenge, containing all necessary parameters.
@@ -24,7 +22,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
     private static final String DEFAULT_OUTPUT_FILE_NAME_PREFIX = "out-";
     private static final ChallengeProgressionStrategy DEFAULT_PROGRESSION_IMPLEMENTATION = new OneShotChallengeProgressionStrategy(ChallengeType.MAXIMUM);
     private static final Boolean DEFAULT_IO_LOGS = false;
-    private static final Boolean DEFAULT_LOGS_PARTIAL_RESULT_AS_TABLE = false;
+    private static final Boolean DEFAULT_LOGS_PARTIAL_RESULT_AS_TABLE = true;
     private static final int DEFAULT_LOG_EVERY_N_INTERATIONS = 1;
 
     private final Class<DATA_MODEL> dataModelClass;
@@ -34,7 +32,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
     private final String inputFolder;
     private final String outputFolder;
     private final ChallengeProgressionStrategy progressionStrategy;
-    private final boolean ioLogs;
+    private final boolean ioFileLogs;
     private final boolean logsPartialResultAsTable;
     private final int logEveryNIterations;
 
@@ -46,7 +44,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
             String inputFolder,
             String outputFolder,
             ChallengeProgressionStrategy progressionStrategy,
-            boolean ioLogs,
+            boolean ioFileLogs,
             boolean logsPartialResultAsTable,
             int logEveryNIterations
     ) {
@@ -57,7 +55,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         this.inputFolder = inputFolder;
         this.outputFolder = outputFolder;
         this.progressionStrategy = progressionStrategy;
-        this.ioLogs = ioLogs;
+        this.ioFileLogs = ioFileLogs;
         this.logsPartialResultAsTable = logsPartialResultAsTable;
         this.logEveryNIterations = logEveryNIterations;
     }
@@ -90,8 +88,8 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         return progressionStrategy;
     }
 
-    public boolean getIOLogs() {
-        return ioLogs;
+    public boolean getIOFileLogs() {
+        return ioFileLogs;
     }
 
     public boolean getLogsPartialResultAsTable() {
@@ -211,6 +209,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
          * <ul>
          *     <li>{@link OneShotChallengeProgressionStrategy}: Defines a strategy where only a single execution (or "trial") is performed. This is the default base strategy for the solver.</li>
          *     <li>{@link FixedChallengeProgressionStrategy}: Defines a fixed number of trials to be used in the challenge</li>
+         *     <li>{@link SimulatedAnnealingProgressionStrategy}: Defines a variable number of trials, gradually lowers temperature to reduce randomness and converge to an optimal solution</li>
          * </ul>
          * The default implementation is {@link OneShotChallengeProgressionStrategy}
          */

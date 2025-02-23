@@ -5,8 +5,11 @@
 The **Reply Challenge Framework** is designed to facilitate solving Reply Challenges by abstracting away common
 boilerplate code. It provides a structured setup so that users can focus exclusively on implementing the logic specific
 to the current challenge. The framework takes care of **input parsing**, **challenge execution**, and **result output**,
-allowing
-for an efficient and streamlined development process.
+allowing for an efficient and streamlined development process.
+
+Ecco il testo aggiornato con la documentazione completata:
+
+---
 
 ## Input Parsing
 
@@ -15,8 +18,8 @@ This class is responsible for defining how the input data is structured and pars
 
 ### Implementing the `fromParser` Method
 
-Each challenge has different input data formats, so you must implement the `fromParser` method accordingly. This method
-should take raw input data and transform it into a structured format suitable for processing within the challenge
+Each challenge has different input data formats, so you must implement the `fromParser` method accordingly. This
+method should take raw input data and transform it into a structured format suitable for processing within the challenge
 solver.
 
 Example:
@@ -37,36 +40,32 @@ public class MyChallengeDataModel implements BaseChallengeDataModel<MyChallengeD
 By following this approach, you ensure that input data is consistently structured and easily usable within the challenge
 solver.
 
+### The `IOReplyParser` class
+
+The `IOReplyParser` class is designed to facilitate reading input files and extracting individual values.  
+It provides a set of utility methods to parse different primitive types, allowing flexibility in handling invalid data.
+
+Key features of the `IOReplyParser` class:
+
+- Supports various primitive type parsing methods, such as `parseString()`, `parseInt()`, `parseIntOrNull()`, etc.
+- Allows choosing whether to throw an exception if parsing fails or return `null` instead.
+- Uses an internal iterator that moves sequentially through the input data, ensuring that each call retrieves the next
+  available value.
+
 ## Challenge Solver
 
 The core logic of solving a challenge is handled in a custom class that extends the abstract class
-`ChallengeSolver.java`. This class must implement three essential methods: `fromDataModel`,
-`solve`, and `computeScore`.
-
-### Implementing the `fromDataModel` Method
-
-This method is responsible for receiving the parsed data model and preparing it for use in the solver. It ensures that
-the solver has access to structured input data, creating a new instance for the custom solver class.
-
-```java
-
-@Override
-public MyChallengeDataModel fromParser(IOReplyParser parser) {
-    // Implement parsing logic here
-    return myChallengeDataModel;
-}
-
-```
+`ChallengeSolver.java`. This class must implement two essential methods: `solve` and `computeScore`.
 
 ### Implementing the `solve` Method
 
-The `solve` method is where the main logic of the challenge is executed. It takes in structured input data and processes
-it to generate the correct output.
+The `solve` method is where the main logic of the challenge is executed. It used to generate a candidate output
+solution.
 
 ```java
 
 @Override
-public List<List<String>> solve(ChallengeResult bestResult) {
+public List<List<String>> solve() {
     // Implement solving logic here
     return result;
 }
@@ -80,7 +79,7 @@ The `computeScore` method calculates the performance score based on the challeng
 ```java
 
 @Override
-public int computeScore(OutputData outputData) {
+public long computeScore(List<List<String>> result) {
     // Implement scoring logic here
     return score;
 }
@@ -117,32 +116,35 @@ are provided and allows for optional configurations.
 ```java
 
 ChallengeConfig<MyDataModel, MySolver> config = new ChallengeConfig
-        .Builder<>(MyDataModel.class, MySolver.class)
-        .setInputFileName("inputFileName.txt")
-        .setOutputFileName("outputFileName.txt")
+        .Builder<>(MyDataModel.class, MySolver.class) //Mandatory
+        .setInputFileName(inputFileName) //Mandatory
         .setInputFolder(EnvUtils.get("INPUT_FOLDER"))
         .setOutputFolder(EnvUtils.get("OUTPUT_FOLDER"))
-        .setProgression(new OneShotChallengeProgression())
-        .setEnableMatrixLogger(true)
+        .setProgression(new SimulatedAnnealingProgressionStrategy(ChallengeType.MAXIMUM, 1_200_000, 0.99f, 10))
+        .setIOFileLogs(false)
+        .setLogsPartialResultAsTable(true)
+        .setLogEveryNIterations(10)
         .build();
 
 ```
 
 ### ChallengeConfig Parameters
 
-This class allows customization of the challenge setup, consisting of mandatory and optional parameters. This table
+This class allows customization of the challenge setup, consisting of mandatory and optional parameters. The table below
 summarizes them:
 
-| **Parameter**         | **Description**                                                      | **Default Value**                           | **Mandatory** |
-|-----------------------|----------------------------------------------------------------------|---------------------------------------------|---------------|
-| `dataModelClass`      | Defines the type of data model used in the challenge.                | N/A                                         | ✔             |
-| `solverClass`         | Specifies the solver implementation used to process the challenge.   | N/A                                         | ✔             |
-| `inputFileName`       | The name of the file containing input data.                          | N/A                                         | ✔             |
-| `outputFileName`      | The name of the file where the output results will be stored.        | `out-<inputFileName>`                       | ✘             |
-| `inputFolder`         | The directory containing input files.                                | `./`                                        | ✘             |
-| `outputFolder`        | The directory where output files will be saved.                      | `./`                                        | ✘             |
-| `progressionStrategy` | Defines how the challenge progresses over multiple executions.       | `new OneShotChallengeProgressionStrategy()` | ✘             |
-| `enableMatrixLogger`  | Enables logging of input and output matrices for debugging purposes. | `true`                                      | ✘             |
+| **Parameter**              | **Description**                                                                                                                                       | **Default Value**                                                | **Mandatory** |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|---------------|
+| `dataModelClass`           | Defines the type of data model used in the challenge.                                                                                                 | N/A                                                              | ☑️            |
+| `solverClass`              | Specifies the solver implementation used to process the challenge.                                                                                    | N/A                                                              | ☑️            |
+| `inputFileName`            | The name of the file containing input data.                                                                                                           | N/A                                                              | ☑️            |
+| `outputFileName`           | The name of the file where the output results will be stored.                                                                                         | `out-<inputFileName>`                                            |               |
+| `inputFolder`              | The directory containing input files.                                                                                                                 | `./`                                                             |               |
+| `outputFolder`             | The directory where output files will be saved.                                                                                                       | `./`                                                             |               |
+| `progressionStrategy`      | Defines how the challenge progresses over multiple executions.                                                                                        | `new OneShotChallengeProgressionStrategy(ChallengeType.MAXIMUM)` |               |
+| `ioFileLogs`               | Enables logging of input and output files for debugging purposes.                                                                                     | `false`                                                          |               |
+| `logsPartialResultAsTable` | Displays the challenge results in a tabular view for better readability.                                                                              | `true`                                                           |               |
+| `logEveryNIterations`      | Instead of logging every single result, logs only once every 'N' iterations. However, candidate results that might be the solution are always logged. | `1`                                                              |               |
 
 #### Handling Challenge Progression Strategy
 
@@ -166,7 +168,6 @@ To solve a challenge using the **Reply Challenge Framework**, follow these steps
 
 2. **Develop a Solver Class**: Create a class that extends the `ChallengeSolver` abstract class. Implement the following
    methods:
-    - `fromDataModel`: Prepare the parsed data for the solver.
     - `solve`: Implement the main logic of the challenge to process the input and generate output.
     - `computeScore`: Calculate the performance score based on the challenge's evaluation criteria.
 
