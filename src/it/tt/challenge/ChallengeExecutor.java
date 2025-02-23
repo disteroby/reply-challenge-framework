@@ -45,6 +45,7 @@ public class ChallengeExecutor {
 
             Date startRunDate = new Date();
             System.out.println("Started computation time: " + startRunDate);
+            System.out.println(oracle.progressionStrategy().getStrategyDescription());
 
             ChallengeResult challengeResult = challengeSolver.run();
 

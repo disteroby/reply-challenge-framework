@@ -45,4 +45,11 @@ public class FixedChallengeProgressionStrategy extends ChallengeProgressionStrat
             return newResult.score() < bestResult.score();
         }
     }
+
+    @Override
+    public String getStrategyDescription() {
+        return "Fixed Progression Strategy.\n\t" +
+                "Type: " + this.challengeType +
+                ", Max Number Of Trials: " + this.maxNumberOfTrials;
+    }
 }

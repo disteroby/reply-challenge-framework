@@ -74,4 +74,13 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
         statusMap.put("Acceptance Prob", String.format("%.02f", this.currentAcceptanceProbability * 100).replace(',', '.') + "%");
         return statusMap;
     }
+
+    @Override
+    public String getStrategyDescription() {
+        return "Simulated Annealing Progression Strategy.\n\t" +
+                "Type: " + this.challengeType +
+                ", Initial Temperature: " + this.initialTemperature +
+                ", Alpha: " + this.alpha +
+                ", Minimum Temperature: " + this.minTemperature;
+    }
 }

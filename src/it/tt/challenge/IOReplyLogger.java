@@ -70,7 +70,8 @@ public class IOReplyLogger {
         System.out.println();
 
         // Lower row
-        printTableSeparatorRow(finalLengths, '╠', '╬', '╣');
+        printTableSeparatorRow(finalLengths, '╠', '╩', '╣');
+        printTableSeparatorRow(finalLengths, '╠', '╦', '╣');
 
         return finalLengths;
     }
@@ -105,7 +106,8 @@ public class IOReplyLogger {
         }
 
         // Upper row
-        printTableSeparatorRow(finalLengths, '╠', '╬', '╣');
+        printTableSeparatorRow(finalLengths, '╠', '╩', '╣');
+        printTableSeparatorRow(finalLengths, '╠', '╦', '╣');
 
         // Inner row
         for (int i = 0; i < finalLengths.size(); i++) {

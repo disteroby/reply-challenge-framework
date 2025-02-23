@@ -10,7 +10,7 @@ import it.tt.utils.EnvUtils;
 
 public class ChallengeMainEntrypoint {
 
-    private static final String inputFileName = "05-input-opposite-points-holes.txt";
+    private static final String inputFileName = "00-example.txt";
 
     /**
      * The main entry point for executing the challenge solution.
@@ -34,6 +34,8 @@ public class ChallengeMainEntrypoint {
                 .setInputFolder(EnvUtils.get("INPUT_FOLDER"))
                 .setOutputFolder(EnvUtils.get("OUTPUT_FOLDER"))
                 .setProgression(new SimulatedAnnealingProgressionStrategy(ChallengeType.MAXIMUM, 1_200_000, 0.99f, 10))
+//                .setProgression(new OneShotChallengeProgressionStrategy(ChallengeType.MAXIMUM))
+//                .setProgression(new FixedChallengeProgressionStrategy(ChallengeType.MAXIMUM, 100))
                 .setIOFileLogs(false)
                 .setLogsPartialResultAsTable(true)
                 .setLogEveryNIterations(10)
