@@ -1,8 +1,10 @@
-package it.tt.challenge.core;
+package it.tt.challenge.core.config;
 
-import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
-import it.tt.challenge.core.progression.FixedChallengeProgressionStrategy;
-import it.tt.challenge.core.progression.OneShotChallengeProgressionStrategy;
+import it.tt.challenge.BaseChallengeDataModel;
+import it.tt.challenge.ChallengeSolver;
+import it.tt.challenge.core.strategy.ChallengeProgressionStrategy;
+import it.tt.challenge.core.strategy.FixedChallengeProgressionStrategy;
+import it.tt.challenge.core.strategy.OneShotChallengeProgressionStrategy;
 
 /**
  * Represents the configuration for a challenge, containing all necessary parameters.
@@ -204,7 +206,7 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
          * </p>
          * <p>
          * Several standard implementations of the {@link ChallengeProgressionStrategy} interface
-         * are available in the package {@link it.tt.challenge.core.progression}. For example:
+         * are available in the package {@link it.tt.challenge.core.strategy}. For example:
          * </p>
          * <ul>
          *     <li>{@link OneShotChallengeProgressionStrategy}: Defines a strategy where only a single execution (or "trial") is performed. This is the default base strategy for the solver.</li>

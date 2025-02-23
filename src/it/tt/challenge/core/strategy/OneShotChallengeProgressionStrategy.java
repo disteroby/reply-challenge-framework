@@ -1,6 +1,6 @@
-package it.tt.challenge.core.progression;
+package it.tt.challenge.core.strategy;
 
-import it.tt.challenge.core.ChallengeType;
+import it.tt.challenge.core.config.ChallengeType;
 
 public class OneShotChallengeProgressionStrategy extends FixedChallengeProgressionStrategy {
 

@@ -1,7 +1,7 @@
 package it.tt.challenge.example;
 
-import it.tt.challenge.core.ChallengeSolver;
-import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
+import it.tt.challenge.ChallengeSolver;
+import it.tt.challenge.core.strategy.ChallengeProgressionStrategy;
 
 import java.util.Arrays;
 import java.util.List;

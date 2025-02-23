@@ -1,7 +1,7 @@
-package it.tt.challenge.core.progression;
+package it.tt.challenge.core.strategy;
 
 import it.tt.challenge.core.ChallengeResult;
-import it.tt.challenge.core.ChallengeType;
+import it.tt.challenge.core.config.ChallengeType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +64,7 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
     }
 
     private static double acceptanceProbability(float delta, float temperature) {
-        return Math.exp(delta / temperature);
+        return Math.min(Math.max(0f, Math.exp(delta / temperature)), 1f); // Clamp in-between [0, 1]
     }
 
     @Override

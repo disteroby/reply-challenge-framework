@@ -1,4 +1,4 @@
-package it.tt.challenge;
+package it.tt.challenge.core.io;
 
 import java.util.*;
 

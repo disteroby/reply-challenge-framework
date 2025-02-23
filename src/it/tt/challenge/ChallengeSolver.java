@@ -1,7 +1,10 @@
-package it.tt.challenge.core;
+package it.tt.challenge;
 
-import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
-import it.tt.challenge.IOReplyLogger;
+import it.tt.challenge.core.ChallengeResult;
+import it.tt.challenge.core.config.ChallengeConfig;
+import it.tt.challenge.core.strategy.ChallengeOracle;
+import it.tt.challenge.core.strategy.ChallengeProgressionStrategy;
+import it.tt.challenge.core.io.IOReplyLogger;
 import it.tt.utils.DateTimeUtils;
 
 import java.util.*;

@@ -1,10 +1,11 @@
-package it.tt.challenge;
+package it.tt.challenge.core;
 
-import it.tt.challenge.core.BaseChallengeDataModel;
-import it.tt.challenge.core.ChallengeConfig;
-import it.tt.challenge.core.ChallengeResult;
-import it.tt.challenge.core.ChallengeSolver;
-import it.tt.challenge.core.ChallengeOracle;
+import it.tt.challenge.BaseChallengeDataModel;
+import it.tt.challenge.ChallengeSolver;
+import it.tt.challenge.core.config.ChallengeConfig;
+import it.tt.challenge.core.strategy.ChallengeOracle;
+import it.tt.challenge.core.io.IOReplyLogger;
+import it.tt.challenge.core.io.IOReplyParser;
 import it.tt.utils.DateTimeUtils;
 
 import java.util.Date;

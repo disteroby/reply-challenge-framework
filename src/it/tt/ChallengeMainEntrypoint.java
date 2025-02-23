@@ -1,9 +1,11 @@
 package it.tt;
 
-import it.tt.challenge.ChallengeExecutor;
-import it.tt.challenge.core.ChallengeConfig;
-import it.tt.challenge.core.ChallengeType;
-import it.tt.challenge.core.progression.*;
+import it.tt.challenge.BaseChallengeDataModel;
+import it.tt.challenge.core.ChallengeExecutor;
+import it.tt.challenge.ChallengeSolver;
+import it.tt.challenge.core.config.ChallengeConfig;
+import it.tt.challenge.core.config.ChallengeType;
+import it.tt.challenge.core.strategy.*;
 import it.tt.challenge.example.Challenge2023DataModel;
 import it.tt.challenge.example.Challenge2023Solver;
 import it.tt.utils.EnvUtils;
@@ -20,8 +22,8 @@ public class ChallengeMainEntrypoint {
      * </p>
      *
      * <p>
-     * The data model class must extend {@link it.tt.challenge.core.BaseChallengeDataModel}, ensuring the
-     * correct input data structure is defined. The solver class must implement {@link it.tt.challenge.core.ChallengeSolver},
+     * The data model class must extend {@link BaseChallengeDataModel}, ensuring the
+     * correct input data structure is defined. The solver class must implement {@link ChallengeSolver},
      * containing the logic to process and solve the challenge.
      * </p>
      *

@@ -1,6 +1,4 @@
-package it.tt.challenge.core;
-
-import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
+package it.tt.challenge.core.strategy;
 
 public record ChallengeOracle(ChallengeProgressionStrategy progressionStrategy) {
     @SuppressWarnings("unused")

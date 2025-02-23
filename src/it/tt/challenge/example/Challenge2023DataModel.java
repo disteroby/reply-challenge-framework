@@ -1,7 +1,7 @@
 package it.tt.challenge.example;
 
-import it.tt.challenge.core.BaseChallengeDataModel;
-import it.tt.challenge.IOReplyParser;
+import it.tt.challenge.BaseChallengeDataModel;
+import it.tt.challenge.core.io.IOReplyParser;
 
 import java.util.ArrayList;
 import java.util.List;
