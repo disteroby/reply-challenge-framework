@@ -49,24 +49,7 @@ public class IOReplyLogger {
         }
 
         // Upper row
-        for (int i = 0; i < finalLengths.size(); i++) {
-            int length = finalLengths.get(i) + 2; // +2 is for 'spaces'
-
-            if (i == 0) {
-                System.out.print("╔");
-            } else {
-                System.out.print("╦");
-            }
-
-            for (int j = 1; j < length - 1; j++) {
-                System.out.print("═");
-            }
-
-            if (i == finalLengths.size() - 1) {
-                System.out.print("╗");
-            }
-        }
-        System.out.println();
+        printTableSeparatorRow(finalLengths, '╔', '╦', '╗');
 
         // Inner row
         for (int i = 0; i < finalLengths.size(); i++) {
@@ -87,13 +70,19 @@ public class IOReplyLogger {
         System.out.println();
 
         // Lower row
+        printTableSeparatorRow(finalLengths, '╠', '╬', '╣');
+
+        return finalLengths;
+    }
+
+    private static void printTableSeparatorRow(List<Integer> finalLengths, char leftSymbol, char centralSymbol, char rightSymbol) {
         for (int i = 0; i < finalLengths.size(); i++) {
-            int length = finalLengths.get(i) + 2;
+            int length = finalLengths.get(i) + 2; // +2 is for 'spaces'
 
             if (i == 0) {
-                System.out.print("╠");
+                System.out.print(leftSymbol);
             } else {
-                System.out.print("╬");
+                System.out.print(centralSymbol);
             }
 
             for (int j = 1; j < length - 1; j++) {
@@ -101,12 +90,10 @@ public class IOReplyLogger {
             }
 
             if (i == finalLengths.size() - 1) {
-                System.out.print("╣");
+                System.out.print(rightSymbol);
             }
         }
         System.out.println();
-
-        return finalLengths;
     }
 
     public static void printTableFooter(List<DataPrintableValue> fields, List<Integer> headerLengths) {
@@ -118,24 +105,7 @@ public class IOReplyLogger {
         }
 
         // Upper row
-        for (int i = 0; i < finalLengths.size(); i++) {
-            int length = finalLengths.get(i) + 2; // +2 is for 'spaces'
-
-            if (i == 0) {
-                System.out.print("╠");
-            } else {
-                System.out.print("╬");
-            }
-
-            for (int j = 1; j < length - 1; j++) {
-                System.out.print("═");
-            }
-
-            if (i == finalLengths.size() - 1) {
-                System.out.print("╣");
-            }
-        }
-        System.out.println();
+        printTableSeparatorRow(finalLengths, '╠', '╬', '╣');
 
         // Inner row
         for (int i = 0; i < finalLengths.size(); i++) {
@@ -156,24 +126,7 @@ public class IOReplyLogger {
         System.out.println();
 
         // Lower row
-        for (int i = 0; i < finalLengths.size(); i++) {
-            int length = finalLengths.get(i) + 2;
-
-            if (i == 0) {
-                System.out.print("╚");
-            } else {
-                System.out.print("╩");
-            }
-
-            for (int j = 1; j < length - 1; j++) {
-                System.out.print("═");
-            }
-
-            if (i == finalLengths.size() - 1) {
-                System.out.print("╝");
-            }
-        }
-        System.out.println();
+        printTableSeparatorRow(finalLengths, '╚', '╩', '╝');
     }
 
     public static void printPartialResultAsTable(List<DataPrintableValue> values, List<Integer> headerLengths) {
