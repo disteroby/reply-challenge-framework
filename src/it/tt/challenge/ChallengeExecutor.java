@@ -28,7 +28,7 @@ public class ChallengeExecutor {
             IOReplyParser parser = new IOReplyParser(challengeConfig.getInputFolder(), challengeConfig.getOutputFolder());
             String[][] contents = parser.readInput(challengeConfig.getInputFileName());
 
-            if (challengeConfig.getEnableMatrixLogger()) {
+            if (challengeConfig.getIOLogs()) {
                 System.out.println("\n\n═════╣  PARSED INPUT  ╠═════\n");
                 IOReplyLogger.printMatrix(contents);
                 System.out.println("\n\n");
@@ -39,9 +39,10 @@ public class ChallengeExecutor {
             ChallengeOracle oracle = new ChallengeOracle(challengeConfig.getProgressionStrategy());
 
             ChallengeSolver<DATA_MODEL> challengeSolver = solverFactoryInstance.fromDataModel(challengeDataModel, oracle.progressionStrategy());
+            challengeSolver.setConfigs(challengeConfig);
             ChallengeResult challengeResult = challengeSolver.run();
 
-            if (challengeConfig.getEnableMatrixLogger()) {
+            if (challengeConfig.getIOLogs()) {
                 System.out.println("\n\n═════╣  GENERATED OUTPUT with score '" + challengeResult.score() + "'  ╠═════\n");
                 IOReplyLogger.printMatrix(challengeResult.result());
                 System.out.println("\n\n");

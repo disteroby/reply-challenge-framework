@@ -20,8 +20,10 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
     private static final String DEFAULT_INPUT_FOLDER_PATH = "./";
     private static final String DEFAULT_OUTPUT_FOLDER_PATH = "./";
     private static final String DEFAULT_OUTPUT_FILE_NAME_PREFIX = "out-";
-    private static final ChallengeProgressionStrategy DEFAULT_PROGRESSION_IMPLEMENTATION = new OneShotChallengeProgressionStrategy();
-    private static final Boolean DEFAULT_ENABLE_MATRIX_LOGGER = true;
+    private static final ChallengeProgressionStrategy DEFAULT_PROGRESSION_IMPLEMENTATION = new OneShotChallengeProgressionStrategy(ChallengeType.MAXIMUM);
+    private static final Boolean DEFAULT_IO_LOGS = false;
+    private static final Boolean DEFAULT_LOGS_PARTIAL_RESULT_AS_TABLE = false;
+    private static final int DEFAULT_LOG_EVERY_N_INTERATIONS = 1;
 
     private final Class<DATA_MODEL> dataModelClass;
     private final Class<SOLVER> solverClass;
@@ -30,7 +32,9 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
     private final String inputFolder;
     private final String outputFolder;
     private final ChallengeProgressionStrategy progressionStrategy;
-    private final boolean enableMatrixLogger;
+    private final boolean ioLogs;
+    private final boolean logsPartialResultAsTable;
+    private final int logEveryNIterations;
 
     private ChallengeConfig(
             Class<DATA_MODEL> dataModelClass,
@@ -40,7 +44,9 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
             String inputFolder,
             String outputFolder,
             ChallengeProgressionStrategy progressionStrategy,
-            boolean enableMatrixLogger
+            boolean ioLogs,
+            boolean logsPartialResultAsTable,
+            int logEveryNIterations
     ) {
         this.dataModelClass = dataModelClass;
         this.solverClass = solverClass;
@@ -49,7 +55,9 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         this.inputFolder = inputFolder;
         this.outputFolder = outputFolder;
         this.progressionStrategy = progressionStrategy;
-        this.enableMatrixLogger = enableMatrixLogger;
+        this.ioLogs = ioLogs;
+        this.logsPartialResultAsTable = logsPartialResultAsTable;
+        this.logEveryNIterations = logEveryNIterations;
     }
 
     public Class<DATA_MODEL> getDataModelClass() {
@@ -80,8 +88,16 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         return progressionStrategy;
     }
 
-    public boolean getEnableMatrixLogger() {
-        return enableMatrixLogger;
+    public boolean getIOLogs() {
+        return ioLogs;
+    }
+
+    public boolean getLogsPartialResultAsTable() {
+        return logsPartialResultAsTable;
+    }
+
+    public int getLogEveryNIterations() {
+        return logEveryNIterations;
     }
 
     /**
@@ -105,7 +121,9 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
         private String inputFolder;
         private String outputFolder;
         private ChallengeProgressionStrategy progression;
-        private Boolean enableMatrixLogger;
+        private Boolean ioLogs;
+        private Boolean logsPartialResultAsTable;
+        private Integer logEveryNIterations;
 
         /**
          * Constructs a new Builder instance for ChallengeConfig.
@@ -209,8 +227,36 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
          * </p>
          */
         @SuppressWarnings("unused")
-        public Builder<DATA_MODEL, SOLVER> setEnableMatrixLogger(boolean enableMatrixLogger) {
-            this.enableMatrixLogger = enableMatrixLogger;
+        public Builder<DATA_MODEL, SOLVER> setIOLogs(boolean ioLogs) {
+            this.ioLogs = ioLogs;
+            return this;
+        }
+
+        /**
+         * Enables or disables logging of partial results as a table.
+         * <p>
+         * If set to <code>true</code>, the solver will output partial results in a tabular format.
+         * This can be useful for tracking progress and understanding intermediate computations.
+         * If set to <code>false</code>, only the final result will be logged.
+         * </p>
+         */
+        @SuppressWarnings("unused")
+        public Builder<DATA_MODEL, SOLVER> setLogsPartialResultAsTable(boolean logsPartialResultAsTable) {
+            this.logsPartialResultAsTable = logsPartialResultAsTable;
+            return this;
+        }
+
+        /**
+         * Sets the interval at which logs should be printed.
+         * <p>
+         * This parameter determines how frequently logs will be printed during execution.
+         * A value of <code>1</code> means that logs will be printed at every iteration,
+         * while a higher value (e.g., 10) means that logs will be printed every 10 iterations.
+         * </p>
+         */
+        @SuppressWarnings("unused")
+        public Builder<DATA_MODEL, SOLVER> setLogEveryNIterations(int logEveryNIterations) {
+            this.logEveryNIterations = logEveryNIterations;
             return this;
         }
 
@@ -243,14 +289,29 @@ public final class ChallengeConfig<DATA_MODEL extends BaseChallengeDataModel<DAT
             if (outputFolder == null) {
                 outputFolder = DEFAULT_OUTPUT_FOLDER_PATH;
             }
-            if (enableMatrixLogger == null) {
-                enableMatrixLogger = DEFAULT_ENABLE_MATRIX_LOGGER;
+            if (ioLogs == null) {
+                ioLogs = DEFAULT_IO_LOGS;
+            }
+            if (logsPartialResultAsTable == null) {
+                logsPartialResultAsTable = DEFAULT_LOGS_PARTIAL_RESULT_AS_TABLE;
+            }
+            if (logEveryNIterations == null) {
+                logEveryNIterations = DEFAULT_LOG_EVERY_N_INTERATIONS;
             }
             if (progression == null) {
                 progression = DEFAULT_PROGRESSION_IMPLEMENTATION;
             }
 
-            return new ChallengeConfig<>(dataModelClass, solverClass, inputFileName, outputFileName, inputFolder, outputFolder, progression, enableMatrixLogger);
+            return new ChallengeConfig<>(dataModelClass,
+                    solverClass,
+                    inputFileName,
+                    outputFileName,
+                    inputFolder,
+                    outputFolder,
+                    progression,
+                    ioLogs,
+                    logsPartialResultAsTable,
+                    logEveryNIterations);
         }
 
         /**

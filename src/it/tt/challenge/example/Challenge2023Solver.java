@@ -29,9 +29,9 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
 
         // Used cached result for performance improving
         if(this.previousResult != null) {
-            // Make the thread sleep for 0.1 seconds (100 milliseconds) to simulate a normal computation
+            // Make the thread sleep for 0.05 seconds (50 milliseconds) to simulate a normal computation
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 System.err.println("Thread was interrupted!");
             }
@@ -66,9 +66,9 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
             result.add(row);
         }
 
-        // Make the thread sleep for 3 seconds (3000 milliseconds) to simulate a heavy computation
+        // Make the thread sleep for 1.5 seconds (1500 milliseconds) to simulate a heavy computation
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             System.err.println("Thread was interrupted!");
         }

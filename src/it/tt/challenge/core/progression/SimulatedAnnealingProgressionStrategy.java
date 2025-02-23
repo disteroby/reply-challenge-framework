@@ -1,29 +1,41 @@
 package it.tt.challenge.core.progression;
 
+import it.tt.challenge.core.ChallengeResult;
+import it.tt.challenge.core.ChallengeType;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionStrategy {
 
     private final float initialTemperature;
-    private final float epsilon;
+    private final float alpha;
+    private final float minTemperature;
     private float currentTemperature;
     private final Random rand;
 
-    public SimulatedAnnealingProgressionStrategy(float initialTemperature, float epsilon) {
+    public SimulatedAnnealingProgressionStrategy(ChallengeType challengeType, float initialTemperature, float alpha) {
+        this(challengeType, initialTemperature, alpha, 1f);
+    }
+
+    public SimulatedAnnealingProgressionStrategy(ChallengeType challengeType, float initialTemperature, float alpha, float minTemperature) {
+        super(challengeType);
         this.initialTemperature = initialTemperature;
         this.currentTemperature = initialTemperature;
-        this.epsilon = epsilon;
+        this.alpha = alpha;
+        this.minTemperature = minTemperature;
         this.rand = new Random();
     }
 
     @Override
     public boolean continuing() {
-        return this.epsilon < this.currentTemperature;
+        return this.currentTemperature > this.minTemperature;
     }
 
     @Override
     public void update() {
-        this.currentTemperature*=0.9f;
+        this.currentTemperature *= this.alpha;
     }
 
     @Override
@@ -32,7 +44,30 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
     }
 
     @Override
-    public String getStrategyStatus() {
-        return "Simulated Annealing Progression Strategy with current temperature: " + this.currentTemperature;
+    public boolean acceptSolution(ChallengeResult newResult, ChallengeResult prevResult, ChallengeResult bestResult) {
+        if(bestResult == null) {
+            return true;
+        }
+
+        float delta = newResult.score() - bestResult.score();
+
+        if(ChallengeType.MINIMUM.equals(this.challengeType)) {
+            delta *= -1f;
+        }
+
+        if(delta > 0) return true;
+
+        return rand.nextFloat() < acceptanceProbability(delta, this.currentTemperature);
+    }
+
+    private static double acceptanceProbability(float delta, float temperature) {
+        return Math.exp(delta / temperature);
+    }
+
+    @Override
+    public Map<String, String> getStrategyStatus() {
+        Map<String, String> statusMap = new HashMap<>();
+        statusMap.put("Current Temperature", String.format("%.03f", this.currentTemperature).replace(',', '.'));
+        return statusMap;
     }
 }

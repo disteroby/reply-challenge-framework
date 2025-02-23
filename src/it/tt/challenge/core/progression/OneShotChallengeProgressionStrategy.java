@@ -1,8 +1,10 @@
 package it.tt.challenge.core.progression;
 
+import it.tt.challenge.core.ChallengeType;
+
 public class OneShotChallengeProgressionStrategy extends FixedChallengeProgressionStrategy {
 
-    public OneShotChallengeProgressionStrategy() {
-        super(1);
+    public OneShotChallengeProgressionStrategy(ChallengeType challengeType) {
+        super(challengeType, 1);
     }
 }

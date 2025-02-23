@@ -2,6 +2,7 @@ package it.tt;
 
 import it.tt.challenge.ChallengeExecutor;
 import it.tt.challenge.core.ChallengeConfig;
+import it.tt.challenge.core.ChallengeType;
 import it.tt.challenge.core.progression.*;
 import it.tt.challenge.example.Challenge2023DataModel;
 import it.tt.challenge.example.Challenge2023Solver;
@@ -32,8 +33,10 @@ public class ChallengeMainEntrypoint {
                 .setInputFileName(inputFileName)
                 .setInputFolder(EnvUtils.get("INPUT_FOLDER"))
                 .setOutputFolder(EnvUtils.get("OUTPUT_FOLDER"))
-                .setProgression(new SimulatedAnnealingProgressionStrategy(1000, 10))
-                .setEnableMatrixLogger(true)
+                .setProgression(new SimulatedAnnealingProgressionStrategy(ChallengeType.MAXIMUM, 1000, 0.99f, 10))
+                .setIOLogs(true)
+                .setLogsPartialResultAsTable(true)
+                .setLogEveryNIterations(10)
                 .build());
     }
 }

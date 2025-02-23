@@ -1,9 +1,9 @@
 package it.tt.challenge.core;
 
 import it.tt.challenge.core.progression.ChallengeProgressionStrategy;
+import it.tt.utils.IOReplyLogger;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<DATA_MODEL>> {
 
@@ -31,6 +31,8 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
      */
     protected ChallengeResult previousResult;
 
+    private ChallengeConfig<DATA_MODEL, ? extends ChallengeSolver<DATA_MODEL>> configs;
+
     public ChallengeSolver() {
         this(null, null);
     }
@@ -40,6 +42,7 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         this.oracle = new ChallengeOracle(progressionStrategy);
         this.currentBestResult = null;
         this.previousResult = null;
+        this.configs = null;
     }
 
     public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgressionStrategy progressionStrategy);
@@ -52,30 +55,44 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         int trialIdx = 1;
         while (this.oracle.progressionStrategy().continuing()) {
             Date dateStart = new Date();
-            System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
+            Map<String, String> strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
+            if (strategyStatus == null) {
+                strategyStatus = new HashMap<>();
+            }
 
-            String strategyStatus = this.oracle.progressionStrategy().getStrategyStatus();
-            if(strategyStatus != null) {
-                System.out.println("\t[STATUS] " + strategyStatus);
+            boolean showLogForThisIteration = (trialIdx-1) % configs.getLogEveryNIterations() == 0;
+
+            if (showLogForThisIteration && !configs.getLogsPartialResultAsTable()) {
+                System.out.println("Started Trial #" + trialIdx + " - " + dateStart);
+                List<Map.Entry<String, String>> statusVariables = new ArrayList<>(strategyStatus.entrySet());
+                for (int i = 0; i < statusVariables.size(); i++) {
+                    Map.Entry<String, String> status = statusVariables.get(i);
+
+                    if (i < statusVariables.size() - 1) {
+                        System.out.println("\t╠══> " + status.getKey() + ": " + status.getValue());
+                    } else {
+                        System.out.println("\t╚══> " + status.getKey() + ": " + status.getValue());
+                    }
+                }
             }
 
             List<List<String>> result = solve();
             long score = computeScore(result);
 
             ChallengeResult currentResult = new ChallengeResult(score, result);
+            boolean acceptSolution = this.oracle.progressionStrategy().acceptSolution(currentResult, this.previousResult, this.currentBestResult);
 
-            if (this.currentBestResult == null || currentResult.score() >= this.currentBestResult.score()) {
+            if (this.currentBestResult == null || acceptSolution) {
                 this.currentBestResult = new ChallengeResult(score, result);
             }
 
             this.previousResult = currentResult;
 
             Date dateEnd = new Date();
-            System.out.println("Completed Trial #" + trialIdx);
-            System.out.println("\t╠══> Completion Time - " + dateEnd);
-            System.out.println("\t╠══> Trial duration: " + getTimeDifference(dateStart, dateEnd));
-            System.out.println("\t╚══> Score: " + score);
-            System.out.println();
+
+            if (showLogForThisIteration) {
+                IOReplyLogger.printPartialResult(configs.getLogsPartialResultAsTable(), trialIdx, dateStart, dateEnd, score, acceptSolution, strategyStatus);
+            }
 
             trialIdx++;
             this.oracle.progressionStrategy().update();
@@ -84,16 +101,7 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         return this.currentBestResult;
     }
 
-    private static String getTimeDifference(Date dateStart, Date dateEnd) {
-        // Calculate the difference in milliseconds
-        long diffInMillis = dateEnd.getTime() - dateStart.getTime();
-
-        // Calculate minutes, seconds, and milliseconds
-        long minutes = diffInMillis / 60_000;
-        long seconds = (diffInMillis % 60_000) / 1_000;
-        long milliseconds = diffInMillis % 1_000;
-
-        // Return the formatted result as a string
-        return String.format("%02d:%02d.%03d", minutes, seconds, milliseconds);
+    public void setConfigs(ChallengeConfig<DATA_MODEL, ? extends ChallengeSolver<DATA_MODEL>> configs) {
+        this.configs = configs;
     }
 }

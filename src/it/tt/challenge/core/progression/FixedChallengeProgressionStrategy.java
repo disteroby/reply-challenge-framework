@@ -1,5 +1,8 @@
 package it.tt.challenge.core.progression;
 
+import it.tt.challenge.core.ChallengeResult;
+import it.tt.challenge.core.ChallengeType;
+
 import java.util.Random;
 
 public class FixedChallengeProgressionStrategy extends ChallengeProgressionStrategy {
@@ -8,7 +11,8 @@ public class FixedChallengeProgressionStrategy extends ChallengeProgressionStrat
     private int currentTrial;
     private final Random rand;
 
-    public FixedChallengeProgressionStrategy(int maxNumberOfTrials) {
+    public FixedChallengeProgressionStrategy(ChallengeType challengeType, int maxNumberOfTrials) {
+        super(challengeType);
         this.maxNumberOfTrials = maxNumberOfTrials;
         this.currentTrial = 0;
         this.rand = new Random();
@@ -27,5 +31,18 @@ public class FixedChallengeProgressionStrategy extends ChallengeProgressionStrat
     @Override
     public float randomChoice() {
         return rand.nextFloat() * (this.maxNumberOfTrials - this.currentTrial) / this.maxNumberOfTrials;
+    }
+
+    @Override
+    public boolean acceptSolution(ChallengeResult newResult, ChallengeResult prevResult, ChallengeResult bestResult) {
+        if (bestResult == null) {
+            return true;
+        }
+
+        if(ChallengeType.MAXIMUM.equals(this.challengeType)) {
+            return newResult.score() > bestResult.score();
+        } else {
+            return newResult.score() < bestResult.score();
+        }
     }
 }
