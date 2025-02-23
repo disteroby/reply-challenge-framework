@@ -1,7 +1,6 @@
 package it.tt.challenge.example;
 
 import it.tt.challenge.ChallengeSolver;
-import it.tt.challenge.core.strategy.ChallengeProgressionStrategy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,20 +9,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel> {
-
-    @SuppressWarnings("unused")
-    public Challenge2023Solver() {
-        this(null, null);
-    }
-
-    private Challenge2023Solver(Challenge2023DataModel challengeDataModel, ChallengeProgressionStrategy progressionStrategy) {
-        super(challengeDataModel, progressionStrategy);
-    }
-
-    @Override
-    public Challenge2023Solver fromDataModel(Challenge2023DataModel challengeDataModel, ChallengeProgressionStrategy progressionStrategy) {
-        return new Challenge2023Solver(challengeDataModel, progressionStrategy);
-    }
 
     @Override
     protected List<List<String>> solve() {

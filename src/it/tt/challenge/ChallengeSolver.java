@@ -41,15 +41,22 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         this(null, null);
     }
 
-    public ChallengeSolver(DATA_MODEL model, ChallengeProgressionStrategy progressionStrategy) {
+    public ChallengeSolver(DATA_MODEL challengeDataModel, ChallengeProgressionStrategy progressionStrategy) {
+        init(challengeDataModel, progressionStrategy);
+    }
+
+    public ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgressionStrategy progressionStrategy) {
+        init(challengeDataModel, progressionStrategy);
+        return this;
+    }
+
+    private void init(DATA_MODEL model, ChallengeProgressionStrategy progressionStrategy) {
         this.model = model;
         this.oracle = new ChallengeOracle(progressionStrategy);
         this.currentBestResult = null;
         this.previousResult = null;
         this.configs = null;
     }
-
-    public abstract ChallengeSolver<DATA_MODEL> fromDataModel(DATA_MODEL challengeDataModel, ChallengeProgressionStrategy progressionStrategy);
 
     protected abstract List<List<String>> solve();
 

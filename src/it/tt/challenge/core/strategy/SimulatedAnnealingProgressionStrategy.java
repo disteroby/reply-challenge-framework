@@ -63,7 +63,7 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
         return rand.nextFloat() <= this.currentAcceptanceProbability;
     }
 
-    private static double acceptanceProbability(float delta, float temperature) {
+    protected static double acceptanceProbability(float delta, float temperature) {
         return Math.min(Math.max(0f, Math.exp(delta / temperature)), 1f); // Clamp in-between [0, 1]
     }
 

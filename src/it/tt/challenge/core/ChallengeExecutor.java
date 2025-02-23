@@ -16,7 +16,7 @@ public class ChallengeExecutor {
 
         try {
 
-            // Instantiate the DataModel and Solver using the provided Class objects
+            // Instantiate the Factory DataModel and Solver using the provided Class objects
             DATA_MODEL dataModelFactoryInstance = challengeConfig.getDataModelClass().getDeclaredConstructor().newInstance();
             SOLVER solverFactoryInstance = challengeConfig.getSolverClass().getDeclaredConstructor().newInstance();
 
