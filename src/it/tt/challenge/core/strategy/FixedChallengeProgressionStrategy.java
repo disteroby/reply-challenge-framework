@@ -48,8 +48,9 @@ public class FixedChallengeProgressionStrategy extends ChallengeProgressionStrat
 
     @Override
     public String getStrategyDescription() {
-        return "Fixed Progression Strategy.\n\t" +
+        return "Fixed Iterations {" +
                 "Type: " + this.challengeType +
-                ", Max Number Of Trials: " + this.maxNumberOfTrials;
+                ", Max Number Of Iterations: " + this.maxNumberOfTrials +
+                "}";
     }
 }

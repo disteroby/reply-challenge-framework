@@ -3,6 +3,29 @@ package it.tt.challenge.core.io;
 import java.util.*;
 
 public class IOReplyLogger {
+
+    public static void printParsedInputMatrix(String[][] parsedInputMatrix) {
+        System.out.println("""
+                        
+                        ╔════════════════════╗
+                        ║    PARSED INPUT    ║
+                        ╚════════════════════╝
+                        """);
+        IOReplyLogger.printMatrix(parsedInputMatrix);
+        System.out.println("\n\n");
+    }
+
+    public static void printOutputResultMatrix(List<List<String>> outputResultMatrix) {
+        System.out.println("""
+                        
+                        ╔════════════════════╗
+                        ║  GENERATED OUTPUT  ║
+                        ╚════════════════════╝
+                        """);
+        IOReplyLogger.printMatrix(outputResultMatrix);
+        System.out.println("\n\n");
+    }
+
     public static <T> void printMatrix(T[][] matrix) {
         for (T[] row : matrix) {
             for (T t : row) {

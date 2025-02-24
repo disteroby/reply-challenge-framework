@@ -23,7 +23,8 @@ public abstract class ChallengeProgressionStrategy {
     }
 
     public String getStrategyDescription() {
-        return "Custom Progression Strategy.\n\t" +
-                "Type: " + this.challengeType;
+        return "Custom {" +
+                "Type: " + this.challengeType +
+                "}";
     }
 }

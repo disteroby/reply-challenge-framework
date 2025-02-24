@@ -7,9 +7,7 @@ boilerplate code. It provides a structured setup so that users can focus exclusi
 to the current challenge. The framework takes care of **input parsing**, **challenge execution**, and **result output**,
 allowing for an efficient and streamlined development process.
 
-Ecco il testo aggiornato con la documentazione completata:
-
----
+Minimum required **JDK**: `17`
 
 ## Input Parsing
 
@@ -59,18 +57,39 @@ The core logic of solving a challenge is handled in a custom class that extends 
 
 ### Implementing the `solve` Method
 
-The `solve` method is where the main logic of the challenge is executed. It used to generate a candidate output
+The `solve` method is where the main logic of the challenge is executed. It is used to generate a candidate output
 solution.
 
 ```java
 
 @Override
-public List<List<String>> solve() {
+public List<List<String>> solve(ChallengeSolveData<MyChallengeDataModel> solveData) {
+    int iterationIndex = solveData.iterationIndex();
+    MyChallengeDataModel model = solveData.model();
+    ChallengeResult bestResult = solveData.bestResult();
+    ChallengeResult previousResult = solveData.previousResult();
+
     // Implement solving logic here
+
     return result;
 }
-
 ```
+
+#### Understanding `ChallengeSolveData`
+
+The `ChallengeSolveData` object provides essential information required to execute the solving process effectively. It
+contains the following attributes:
+
+- **`model` (MyChallengeDataModel)**: Represents the data model associated with the challenge.
+- **`iterationIndex` (int)**: Indicates the current 0-based iteration number. This can be useful for iterative or evolutionary
+  algorithms where multiple attempts are made to improve the solution.
+- **`bestResult` (ChallengeResult)**: Stores the best result obtained so far in the solving process. This can be used as
+  a reference to guide the solver towards better solutions.
+- **`previousResult` (ChallengeResult)**: Holds the result from the previous iteration. It can be used to compare the
+  performance of consecutive iterations and make adjustments accordingly.
+
+Using these attributes, the `solve` method can effectively generate and refine solutions based on the given challenge
+constraints and past performance.
 
 ### Implementing the `computeScore` Method
 

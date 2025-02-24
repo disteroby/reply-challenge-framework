@@ -10,7 +10,8 @@ public class OneShotChallengeProgressionStrategy extends FixedChallengeProgressi
 
     @Override
     public String getStrategyDescription() {
-        return "OneShot Progression Strategy.\n\t" +
-                "Type: " + this.challengeType;
+        return "One Shot {" +
+                "Type: " + this.challengeType +
+                "}";
     }
 }

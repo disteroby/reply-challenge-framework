@@ -77,10 +77,11 @@ public class SimulatedAnnealingProgressionStrategy extends ChallengeProgressionS
 
     @Override
     public String getStrategyDescription() {
-        return "Simulated Annealing Progression Strategy.\n\t" +
+        return "Simulated Annealing {" +
                 "Type: " + this.challengeType +
-                ", Initial Temperature: " + this.initialTemperature +
                 ", Alpha: " + this.alpha +
-                ", Minimum Temperature: " + this.minTemperature;
+                ", Initial Temperature: " + this.initialTemperature +
+                ", Minimum Temperature: " + this.minTemperature +
+                "}";
     }
 }

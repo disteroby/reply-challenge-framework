@@ -1,6 +1,7 @@
 package it.tt.challenge;
 
 import it.tt.challenge.core.ChallengeResult;
+import it.tt.challenge.core.ChallengeSolveData;
 import it.tt.challenge.core.config.ChallengeConfig;
 import it.tt.challenge.core.strategy.ChallengeOracle;
 import it.tt.challenge.core.strategy.ChallengeProgressionStrategy;
@@ -11,29 +12,10 @@ import java.util.*;
 
 public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<DATA_MODEL>> {
 
-    /**
-     * The structured data model representing the input for the challenge.
-     * This object holds the data that will be processed and used during the challenge.
-     */
-    protected DATA_MODEL model;
-
-    /**
-     * The oracle that allows making random choices during the challenge.
-     * It helps in determining progression and decision-making based on a given strategy.
-     */
-    protected ChallengeOracle oracle;
-
-    /**
-     * The best result achieved during the current execution.
-     * This is updated each time a better solution is found during a trial.
-     */
-    protected ChallengeResult currentBestResult;
-
-    /**
-     * The result of the previous computation or trial.
-     * This result is stored for comparison with the current result.
-     */
-    protected ChallengeResult previousResult;
+    private DATA_MODEL model;
+    private ChallengeOracle oracle;
+    private ChallengeResult currentBestResult;
+    private ChallengeResult previousResult;
 
     private ChallengeConfig<DATA_MODEL, ? extends ChallengeSolver<DATA_MODEL>> configs;
 
@@ -58,7 +40,7 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
         this.configs = null;
     }
 
-    protected abstract List<List<String>> solve();
+    protected abstract List<List<String>> solve(ChallengeSolveData<DATA_MODEL> solveData);
 
     protected abstract long computeScore(List<List<String>> result);
 
@@ -96,7 +78,8 @@ public abstract class ChallengeSolver<DATA_MODEL extends BaseChallengeDataModel<
                 IOReplyLogger.printListIterationHeader(trialIdx, dateStart);
             }
 
-            List<List<String>> result = solve();
+            ChallengeSolveData<DATA_MODEL> challengeSolveData = new ChallengeSolveData<>(model, trialIdx -1, currentBestResult, previousResult);
+            List<List<String>> result = solve(challengeSolveData);
             long score = computeScore(result);
 
             Date dateEnd = new Date();

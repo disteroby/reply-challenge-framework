@@ -32,9 +32,7 @@ public class ChallengeExecutor {
             String[][] contents = parser.readInput(challengeConfig.getInputFileName());
 
             if (challengeConfig.getIOFileLogs()) {
-                System.out.println("\n\n═════╣  PARSED INPUT  ╠═════\n");
-                IOReplyLogger.printMatrix(contents);
-                System.out.println("\n\n");
+                IOReplyLogger.printParsedInputMatrix(contents);
             }
 
             DATA_MODEL challengeDataModel = dataModelFactoryInstance.fromParser(parser);
@@ -46,7 +44,7 @@ public class ChallengeExecutor {
 
             Date startRunDate = new Date();
             System.out.println("Started computation time: " + startRunDate);
-            System.out.println(oracle.progressionStrategy().getStrategyDescription());
+            System.out.println("Strategy: " + oracle.progressionStrategy().getStrategyDescription());
 
             ChallengeResult challengeResult = challengeSolver.run();
 
@@ -55,9 +53,7 @@ public class ChallengeExecutor {
             System.out.println("Duration: " + DateTimeUtils.getTimeDifference(startRunDate, endRunDate));
 
             if (challengeConfig.getIOFileLogs()) {
-                System.out.println("\n\n═════╣  GENERATED OUTPUT with score '" + challengeResult.score() + "'  ╠═════\n");
-                IOReplyLogger.printMatrix(challengeResult.result());
-                System.out.println("\n\n");
+                IOReplyLogger.printOutputResultMatrix(challengeResult.result());
             }
 
             parser.writeOutput(challengeConfig.getOutputFileName(), challengeResult.result());

@@ -1,6 +1,7 @@
 package it.tt.challenge.example;
 
 import it.tt.challenge.ChallengeSolver;
+import it.tt.challenge.core.ChallengeSolveData;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,36 +9,36 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel> {
 
     @Override
-    protected List<List<String>> solve() {
+    protected List<List<String>> solve(ChallengeSolveData<Challenge2023DataModel> solveData) {
 
-        // Used cached result for performance improving
-        if(this.previousResult != null) {
-            // Make the thread sleep for 0.05 seconds (50 milliseconds) to simulate a normal computation
+        if(solveData.previousResult() != null) {
+            // Make the thread sleep for 0.05 seconds (50 milliseconds) to simulate a light computation
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 System.err.println("Thread was interrupted!");
             }
-            return this.previousResult.result();
+            return solveData.previousResult().result();
         }
 
-        int rows = model.components.length;
-        int cols = model.components[0].length;
+        int rows = solveData.model().components.length;
+        int cols = solveData.model().components[0].length;
 
         List<List<String>> result = new ArrayList<>();
 
         // First row
         result.add(Arrays.asList(
-                String.valueOf(model.C),
-                String.valueOf(model.R),
-                String.valueOf(model.S)
+                String.valueOf(solveData.model().C),
+                String.valueOf(solveData.model().R),
+                String.valueOf(solveData.model().S)
         ));
 
         // Second row
-        result.add(model.snakesLength.stream()
+        result.add(solveData.model().snakesLength.stream()
                 .map(String::valueOf)
                 .collect(Collectors.toList()));
 
@@ -45,8 +46,8 @@ public class Challenge2023Solver extends ChallengeSolver<Challenge2023DataModel>
         for (int i = 0; i < rows; i++) {
             List<String> row = new ArrayList<>();
             for (int j = 0; j < cols; j++) {
-                row.add((model.components[i][j] != null) ?
-                        String.valueOf(model.components[i][j]) :
+                row.add((solveData.model().components[i][j] != null) ?
+                        String.valueOf(solveData.model().components[i][j]) :
                         "*");
             }
             result.add(row);
